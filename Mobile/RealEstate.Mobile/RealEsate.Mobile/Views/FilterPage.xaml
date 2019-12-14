@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+             xmlns:SyncfusionButton="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+             xmlns:forms="clr-namespace:Xamarin.RangeSlider.Forms;assembly=Xamarin.RangeSlider.Forms"
+             xmlns:customViews="clr-namespace:RealEstate.Mobile.CustomControls;assembly=RealEstate.Mobile"
+             x:Class="RealEstate.Mobile.Views.FilterPage"
+             Title="Search">
+    
+    <ContentPage.Content>
+        <ScrollView>
+        <Grid>
+        <Grid Padding="20,20,20,0" ColumnSpacing="15">
+                    <Grid.RowSpacing>
+                        <OnPlatform x:TypeArguments="x:Double" Android="-10" iOS="-5"/>
+                    </Grid.RowSpacing>
+                    <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+            <inputLayout:SfTextInputLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="productCodeLayout"
+                                                   ContainerType="Outlined"
+                                                   FocusedColor="{StaticResource Primary}"
+                                                    
+                                                   Hint="Input Product code"
+                                                   VerticalOptions="FillAndExpand"
+                                                   HorizontalOptions="FillAndExpand"
+                                                   LeadingViewPosition="Outside">
+                            <Entry x:Name="ProductCodeEntry" Text="{Binding ProductCode}"
+                                    FontSize="Medium"
+                                   Keyboard="Text"
+                                   HorizontalOptions="FillAndExpand"
+                                   VerticalOptions="FillAndExpand"
+                                    FontFamily="{StaticResource NunitoRegular}"/>
+
+                        
+                        <inputLayout:SfTextInputLayout.LeadingView>
+                            <Label FontSize="18"
+                                       Text="&#xf002;"
+                                       TextColor="{StaticResource Primary}"
+                                       VerticalTextAlignment="Center">
+                                <Label.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                 </OnPlatform>
+                                </Label.FontFamily>
+                            </Label>
+                        </inputLayout:SfTextInputLayout.LeadingView>
+                    </inputLayout:SfTextInputLayout>        
+            
+                
+                <inputLayout:SfTextInputLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="productIdLayout"
+                                                   ContainerType="Outlined"
+                                                   FocusedColor="{StaticResource Primary}"
+                                                    
+                                                   Hint="Select location"
+                                                   HorizontalOptions="Fill"
+                                                   LeadingViewPosition="Outside">
+
+                    <combobox:SfComboBox x:Name="TownCombobox" ShowBorder="false"
+                                         DataSource="{Binding Towns}"
+                                         DisplayMemberPath="Name"
+                                         IsEditableMode="true"
+                                         ShowSuggestionsOnFocus="true"
+                                         AllowFiltering="true"
+                                         SuggestionMode="Contains"
+                                         TextSize="14" BorderColor="{StaticResource Primary}">
+                            <combobox:SfComboBox.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">18</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </combobox:SfComboBox.HeightRequest>
+                            </combobox:SfComboBox>
+                    <inputLayout:SfTextInputLayout.LeadingView>
+                        <Label FontSize="18" 
+                                   Text="&#xf1ad;"
+                                   TextColor="{StaticResource Primary}"
+                                   VerticalTextAlignment="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                             </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                    </inputLayout:SfTextInputLayout.LeadingView>
+                </inputLayout:SfTextInputLayout>
+                
+                <inputLayout:SfTextInputLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="ListingTypeLayout"
+                                                   ContainerType="Outlined"
+                                                   FocusedColor="{StaticResource Primary}"
+                                                    
+                                                   Hint="Select property type"
+                                                   HorizontalOptions="Fill"
+                                                   LeadingViewPosition="Outside">
+                    <combobox:SfComboBox x:Name="ListingTypeCombobox" ShowBorder="false"
+                                         DataSource="{Binding ListingTypes}"
+                                         DisplayMemberPath="Name"
+                                         IsEditableMode="true"
+                                         ShowSuggestionsOnFocus="true"
+                                         AllowFiltering="true"
+                                         SuggestionMode="Contains"
+                                         TextSize="14" BorderColor="{StaticResource Primary}">
+                            <combobox:SfComboBox.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">18</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </combobox:SfComboBox.HeightRequest>
+                            </combobox:SfComboBox>
+                    <inputLayout:SfTextInputLayout.LeadingView>
+                        <Label FontSize="18" 
+                                   Text="&#xf015;"
+                                   TextColor="{StaticResource Primary}"
+                                   VerticalTextAlignment="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                             </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                    </inputLayout:SfTextInputLayout.LeadingView>
+                </inputLayout:SfTextInputLayout>
+                
+                <inputLayout:SfTextInputLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="AreaLayout"
+                                                   ContainerType="Outlined"
+                                                   FocusedColor="{StaticResource Primary}"
+                                                    
+                                                   Hint="Input area"
+                                                   HorizontalOptions="Fill"
+                                                   LeadingViewPosition="Outside">
+                    <combobox:SfComboBox x:Name="AreaCombobox" ShowBorder="false"
+                                         DataSource="{Binding AreaRanges}"
+                                         DisplayMemberPath="Name"
+                                         IsEditableMode="true"
+                                         ShowSuggestionsOnFocus="true"
+                                         AllowFiltering="true"
+                                         SuggestionMode="Contains"
+                                         TextSize="14" BorderColor="{StaticResource Primary}">
+                            <combobox:SfComboBox.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">18</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </combobox:SfComboBox.HeightRequest>
+                            </combobox:SfComboBox>
+                    <inputLayout:SfTextInputLayout.LeadingView>
+                        <Label FontSize="18" 
+                                   Text="&#xf5cb;"
+                                   TextColor="{StaticResource Primary}"
+                                   VerticalTextAlignment="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                             </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                    </inputLayout:SfTextInputLayout.LeadingView>
+                </inputLayout:SfTextInputLayout>
+                
+                <inputLayout:SfTextInputLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" x:Name="TypeLayout"
+                                                   ContainerType="Outlined"
+                                                   FocusedColor="{StaticResource Primary}"
+                                                    
+                                                   Hint="Sell or Rent "
+                                                   HorizontalOptions="Fill"
+                                                   LeadingViewPosition="Outside">
+                    <combobox:SfComboBox x:Name="TypeCombobox" ShowBorder="false"
+                                         DataSource="{Binding Types}"
+                                         SelectionChanged="OnTypes_SelectionChanged"
+                                         DisplayMemberPath="Name"
+                                         IsEditableMode="true"
+                                         ShowSuggestionsOnFocus="true"
+                                         AllowFiltering="true"
+                                         SuggestionBoxPlacement="Top"
+                                         SuggestionMode="Contains"
+                                         TextSize="14" BorderColor="{StaticResource Primary}">
+                            <combobox:SfComboBox.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">18</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </combobox:SfComboBox.HeightRequest>
+                            </combobox:SfComboBox>
+                    <inputLayout:SfTextInputLayout.LeadingView>
+                        <Label FontSize="18" 
+                                   Text="&#xf0ca;"
+                                   TextColor="{StaticResource Primary}"
+                                   VerticalTextAlignment="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                             </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                    </inputLayout:SfTextInputLayout.LeadingView>
+                </inputLayout:SfTextInputLayout>
+                
+                <inputLayout:SfTextInputLayout Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="SalePriceLayout"
+                                                   ContainerType="Outlined"
+                                                   FocusedColor="{StaticResource Primary}"
+                                                    
+                                                   Hint="Sell Price"
+                                                   HorizontalOptions="Fill"
+                                                   LeadingViewPosition="Outside">
+                    <combobox:SfComboBox x:Name="SalePriceCombobox" ShowBorder="false"
+                                         DataSource="{Binding SalePriceRanges}"
+                                         DisplayMemberPath="Name"
+                                         IsEditableMode="true"
+                                         SuggestionBoxPlacement="Top"
+                                         ShowSuggestionsOnFocus="true"
+                                         AllowFiltering="true"
+                                         SuggestionMode="Contains"
+                                         TextSize="14" BorderColor="{StaticResource Primary}">
+                            <combobox:SfComboBox.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">18</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </combobox:SfComboBox.HeightRequest>
+                            </combobox:SfComboBox>
+                    <inputLayout:SfTextInputLayout.LeadingView>
+                        <Label FontSize="18" 
+                                   Text="&#xf4c0;"
+                                   TextColor="{StaticResource Primary}"
+                                   VerticalTextAlignment="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                             </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                    </inputLayout:SfTextInputLayout.LeadingView>
+                </inputLayout:SfTextInputLayout>
+                
+                <inputLayout:SfTextInputLayout Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="RentPriceLayout"
+                                                   IsVisible="false"
+                                                   ContainerType="Outlined"
+                                                   FocusedColor="{StaticResource Primary}"
+                                                    
+                                                   Hint="Rent Price"
+                                                   HorizontalOptions="Fill"
+                                                   LeadingViewPosition="Outside">
+                    <combobox:SfComboBox x:Name="RentPriceCombobox" ShowBorder="false"
+                                         DataSource="{Binding RentPriceRanges}"
+                                         DisplayMemberPath="Name"
+                                         IsEditableMode="true"
+                                         SuggestionBoxPlacement="Top"
+                                         ShowSuggestionsOnFocus="true"
+                                         AllowFiltering="true"
+                                         SuggestionMode="Contains"
+                                         TextSize="14" BorderColor="{StaticResource Primary}">
+                            <combobox:SfComboBox.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">18</On>
+                                        <On Platform="Android">50</On>
+                                    </OnPlatform>
+                                </combobox:SfComboBox.HeightRequest>
+                            </combobox:SfComboBox>
+                    <inputLayout:SfTextInputLayout.LeadingView>
+                        <Label FontSize="18" 
+                                   Text="&#xf571;"
+                                   TextColor="{StaticResource Primary}"
+                                   VerticalTextAlignment="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                             </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                    </inputLayout:SfTextInputLayout.LeadingView>
+                </inputLayout:SfTextInputLayout>
+                
+                <SyncfusionButton:SfButton x:Name="clearButton" Grid.Row="6" Grid.Column="0" Margin="0,15,0,0"
+                                           HeightRequest="50" WidthRequest="140" 
+                                           VerticalOptions="Center" 
+                                           HorizontalOptions="End" FontSize="16"
+                                           Text="Reset" CornerRadius="25" ShowIcon="False" ImageAlignment="End" ImageSource="search.png"
+                                           BackgroundColor="{StaticResource RedColor}" Clicked="ClearButton_Clicked" FontFamily="{StaticResource NunitoRegular}"
+                                           />
+
+                    <SyncfusionButton:SfButton x:Name="SearchtButton" Grid.Row="6" Grid.Column="1" Margin="0,15,0,0"
+                                           HeightRequest="50" WidthRequest="140" 
+                                           VerticalOptions="Center" 
+                                           HorizontalOptions="Start" FontSize="16"
+                                           Text="Apply" CornerRadius="25" ShowIcon="False" ImageAlignment="End" ImageSource="search.png"
+                                           BackgroundColor="{StaticResource Primary}" Clicked="SearchButton_Clicked" FontFamily="{StaticResource NunitoRegular}"
+                                           />
+            </Grid>
+        <customViews:LoadingIndicator 
+                    Grid.Row="0"
+                    IsRunning="{Binding IsBusy, Mode=TwoWay}" 
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill" />
+        
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

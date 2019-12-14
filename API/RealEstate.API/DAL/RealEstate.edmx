@@ -1,0 +1,1088 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RealEstateModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentId" Type="bigint" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="150" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="150" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="150" />
+          <Property Name="Email" Type="nvarchar" MaxLength="150" />
+          <Property Name="Password" Type="nvarchar" MaxLength="150" />
+          <Property Name="LastSignIn" Type="smalldatetime" />
+          <Property Name="CreateDate" Type="smalldatetime" />
+          <Property Name="Image" Type="nvarchar" MaxLength="250" />
+          <Property Name="Detail" Type="nvarchar(max)" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="AccountRoles">
+          <Key>
+            <PropertyRef Name="AccountRoleId" />
+          </Key>
+          <Property Name="AccountRoleId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="bigint" />
+          <Property Name="AccountId" Type="bigint" />
+          <Property Name="CreateDate" Type="smalldatetime" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Contents" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreateById" Type="bigint" />
+          <Property Name="CreateDate" Type="smalldatetime" />
+          <Property Name="EstateId" Type="bigint" />
+          <Property Name="NotificationId" Type="bigint" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="250" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="350" />
+          <Property Name="LicensePlates" Type="nvarchar" MaxLength="150" />
+          <Property Name="CreateDate" Type="smalldatetime" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="250" />
+          <Property Name="CreatDate" Type="smalldatetime" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="Estate_Types">
+          <Key>
+            <PropertyRef Name="Estate_TypeId" />
+          </Key>
+          <Property Name="Estate_TypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+          <Property Name="CreateDate" Type="smalldatetime" />
+          <Property Name="EditDate" Type="smalldatetime" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="EstateMedias">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EstateId" Type="bigint" />
+          <Property Name="FriendlyFileName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FileSize" Type="bigint" />
+          <Property Name="ThumbnailUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="Url" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="bigint" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="Estates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Estates_TypeId" Type="int" />
+          <Property Name="AccountId" Type="bigint" />
+          <Property Name="TownId" Type="bigint" />
+          <Property Name="SaleOrRent" Type="int" />
+          <Property Name="EstateCode" Type="nvarchar" MaxLength="150" />
+          <Property Name="Area" Type="nvarchar" MaxLength="250" />
+          <Property Name="SalePrice" Type="float" />
+          <Property Name="SaleUnitId" Type="bigint" />
+          <Property Name="RentPrice" Type="float" />
+          <Property Name="RentUnitId" Type="bigint" />
+          <Property Name="HouseNumber" Type="nvarchar" MaxLength="150" />
+          <Property Name="LotCode" Type="nvarchar" MaxLength="150" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="150" />
+          <Property Name="OwnerName" Type="nvarchar" MaxLength="150" />
+          <Property Name="CreatedDate" Type="smalldatetime" />
+          <Property Name="ModifiedDate" Type="smalldatetime" />
+          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="IsHot" Type="bit" />
+          <Property Name="Lat" Type="float" />
+          <Property Name="Long" Type="float" />
+          <Property Name="PinMainText" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" />
+          <Property Name="LogBy" Type="nvarchar(max)" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="LoginLog">
+          <Key>
+            <PropertyRef Name="LoginLogId" />
+          </Key>
+          <Property Name="LoginLogId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountId" Type="bigint" />
+          <Property Name="IPAddress" Type="nvarchar" MaxLength="250" />
+          <Property Name="CreateDate" Type="smalldatetime" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="Notifications">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="150" />
+          <Property Name="Contents" Type="nvarchar(max)" />
+          <Property Name="AccountId" Type="bigint" />
+          <Property Name="CreateDate" Type="smalldatetime" />
+          <Property Name="AllowComment" Type="bit" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="RentUnits">
+          <Key>
+            <PropertyRef Name="RentUnitId" />
+          </Key>
+          <Property Name="RentUnitId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="150" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CreateDate" Type="smalldatetime" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="SaleUnits">
+          <Key>
+            <PropertyRef Name="SaleUnitId" />
+          </Key>
+          <Property Name="SaleUnitId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Towns">
+          <Key>
+            <PropertyRef Name="TownId" />
+          </Key>
+          <Property Name="TownId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+          <Property Name="Address" Type="nvarchar" MaxLength="250" />
+          <Property Name="CreateDate" Type="smalldatetime" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <Association Name="FK_Account_Departments">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
+          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountRoles_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="AccountRoles" Type="Self.AccountRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="AccountRoles">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountRoles_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="AccountRoles" Type="Self.AccountRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="AccountRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="CreateById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_SanPham">
+          <End Role="Estates" Type="Self.Estates" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="EstateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_ThongBao">
+          <End Role="Notifications" Type="Self.Notifications" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Notifications">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="NotificationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EstateMedias_Estates">
+          <End Role="Estates" Type="Self.Estates" Multiplicity="0..1" />
+          <End Role="EstateMedias" Type="Self.EstateMedias" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EstateMedias">
+              <PropertyRef Name="EstateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LoginLog_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="LoginLog" Type="Self.LoginLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="LoginLog">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SanPham_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Estates" Type="Self.Estates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Estates">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SanPham_DonViBan">
+          <End Role="SaleUnits" Type="Self.SaleUnits" Multiplicity="0..1" />
+          <End Role="Estates" Type="Self.Estates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SaleUnits">
+              <PropertyRef Name="SaleUnitId" />
+            </Principal>
+            <Dependent Role="Estates">
+              <PropertyRef Name="SaleUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SanPham_DonViThue">
+          <End Role="RentUnits" Type="Self.RentUnits" Multiplicity="0..1" />
+          <End Role="Estates" Type="Self.Estates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RentUnits">
+              <PropertyRef Name="RentUnitId" />
+            </Principal>
+            <Dependent Role="Estates">
+              <PropertyRef Name="RentUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SanPham_KhuPho">
+          <End Role="Towns" Type="Self.Towns" Multiplicity="0..1" />
+          <End Role="Estates" Type="Self.Estates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Towns">
+              <PropertyRef Name="TownId" />
+            </Principal>
+            <Dependent Role="Estates">
+              <PropertyRef Name="TownId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SanPham_LoaiNhaDat">
+          <End Role="Estate_Types" Type="Self.Estate_Types" Multiplicity="0..1" />
+          <End Role="Estates" Type="Self.Estates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estate_Types">
+              <PropertyRef Name="Estate_TypeId" />
+            </Principal>
+            <Dependent Role="Estates">
+              <PropertyRef Name="Estates_TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThongBao_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Notifications" Type="Self.Notifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Notifications">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RealEstateModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccountRoles" EntityType="Self.AccountRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estate_Types" EntityType="Self.Estate_Types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstateMedias" EntityType="Self.EstateMedias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estates" EntityType="Self.Estates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoginLog" EntityType="Self.LoginLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RentUnits" EntityType="Self.RentUnits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SaleUnits" EntityType="Self.SaleUnits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Towns" EntityType="Self.Towns" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Account_Departments" Association="Self.FK_Account_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountRoles_Account" Association="Self.FK_AccountRoles_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="AccountRoles" EntitySet="AccountRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountRoles_Roles" Association="Self.FK_AccountRoles_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="AccountRoles" EntitySet="AccountRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Account" Association="Self.FK_Comment_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_SanPham" Association="Self.FK_Comment_SanPham">
+            <End Role="Estates" EntitySet="Estates" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_ThongBao" Association="Self.FK_Comment_ThongBao">
+            <End Role="Notifications" EntitySet="Notifications" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EstateMedias_Estates" Association="Self.FK_EstateMedias_Estates">
+            <End Role="Estates" EntitySet="Estates" />
+            <End Role="EstateMedias" EntitySet="EstateMedias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LoginLog_Account" Association="Self.FK_LoginLog_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="LoginLog" EntitySet="LoginLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SanPham_Account" Association="Self.FK_SanPham_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Estates" EntitySet="Estates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SanPham_DonViBan" Association="Self.FK_SanPham_DonViBan">
+            <End Role="SaleUnits" EntitySet="SaleUnits" />
+            <End Role="Estates" EntitySet="Estates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SanPham_DonViThue" Association="Self.FK_SanPham_DonViThue">
+            <End Role="RentUnits" EntitySet="RentUnits" />
+            <End Role="Estates" EntitySet="Estates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SanPham_KhuPho" Association="Self.FK_SanPham_KhuPho">
+            <End Role="Towns" EntitySet="Towns" />
+            <End Role="Estates" EntitySet="Estates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SanPham_LoaiNhaDat" Association="Self.FK_SanPham_LoaiNhaDat">
+            <End Role="Estate_Types" EntitySet="Estate_Types" />
+            <End Role="Estates" EntitySet="Estates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThongBao_Account" Association="Self.FK_ThongBao_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Notifications" EntitySet="Notifications" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RealEstateModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="RealEstateEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="RealEstateModel.Account" />
+          <EntitySet Name="AccountRoles" EntityType="RealEstateModel.AccountRole" />
+          <EntitySet Name="Comments" EntityType="RealEstateModel.Comment" />
+          <EntitySet Name="Customers" EntityType="RealEstateModel.Customer" />
+          <EntitySet Name="Departments" EntityType="RealEstateModel.Department" />
+          <EntitySet Name="Estate_Types" EntityType="RealEstateModel.Estate_Types" />
+          <EntitySet Name="LoginLogs" EntityType="RealEstateModel.LoginLog" />
+          <EntitySet Name="Notifications" EntityType="RealEstateModel.Notification" />
+          <EntitySet Name="RentUnits" EntityType="RealEstateModel.RentUnit" />
+          <EntitySet Name="Roles" EntityType="RealEstateModel.Role" />
+          <EntitySet Name="SaleUnits" EntityType="RealEstateModel.SaleUnit" />
+          <EntitySet Name="Towns" EntityType="RealEstateModel.Town" />
+          <AssociationSet Name="FK_Account_Departments" Association="RealEstateModel.FK_Account_Departments">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Account" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountRoles_Account" Association="RealEstateModel.FK_AccountRoles_Account">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="AccountRole" EntitySet="AccountRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Account" Association="RealEstateModel.FK_Comment_Account">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LoginLog_Account" Association="RealEstateModel.FK_LoginLog_Account">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="LoginLog" EntitySet="LoginLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThongBao_Account" Association="RealEstateModel.FK_ThongBao_Account">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountRoles_Roles" Association="RealEstateModel.FK_AccountRoles_Roles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="AccountRole" EntitySet="AccountRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_ThongBao" Association="RealEstateModel.FK_Comment_ThongBao">
+            <End Role="Notification" EntitySet="Notifications" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <EntitySet Name="EstateMedias" EntityType="RealEstateModel.EstateMedia" />
+          <EntitySet Name="Estates" EntityType="RealEstateModel.Estate" />
+          <AssociationSet Name="FK_SanPham_Account" Association="RealEstateModel.FK_SanPham_Account">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Estate" EntitySet="Estates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_SanPham" Association="RealEstateModel.FK_Comment_SanPham">
+            <End Role="Estate" EntitySet="Estates" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SanPham_LoaiNhaDat" Association="RealEstateModel.FK_SanPham_LoaiNhaDat">
+            <End Role="Estate_Types" EntitySet="Estate_Types" />
+            <End Role="Estate" EntitySet="Estates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EstateMedias_Estates" Association="RealEstateModel.FK_EstateMedias_Estates">
+            <End Role="Estate" EntitySet="Estates" />
+            <End Role="EstateMedia" EntitySet="EstateMedias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SanPham_DonViBan" Association="RealEstateModel.FK_SanPham_DonViBan">
+            <End Role="SaleUnit" EntitySet="SaleUnits" />
+            <End Role="Estate" EntitySet="Estates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SanPham_DonViThue" Association="RealEstateModel.FK_SanPham_DonViThue">
+            <End Role="RentUnit" EntitySet="RentUnits" />
+            <End Role="Estate" EntitySet="Estates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SanPham_KhuPho" Association="RealEstateModel.FK_SanPham_KhuPho">
+            <End Role="Town" EntitySet="Towns" />
+            <End Role="Estate" EntitySet="Estates" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentId" Type="Int64" />
+          <Property Name="UserName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="LastSignIn" Type="DateTime" Precision="0" />
+          <Property Name="CreateDate" Type="DateTime" Precision="0" />
+          <Property Name="Image" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="Department" Relationship="RealEstateModel.FK_Account_Departments" FromRole="Account" ToRole="Department" />
+          <NavigationProperty Name="AccountRoles" Relationship="RealEstateModel.FK_AccountRoles_Account" FromRole="Account" ToRole="AccountRole" />
+          <NavigationProperty Name="Comments" Relationship="RealEstateModel.FK_Comment_Account" FromRole="Account" ToRole="Comment" />
+          <NavigationProperty Name="LoginLogs" Relationship="RealEstateModel.FK_LoginLog_Account" FromRole="Account" ToRole="LoginLog" />
+          <NavigationProperty Name="Notifications" Relationship="RealEstateModel.FK_ThongBao_Account" FromRole="Account" ToRole="Notification" />
+          <NavigationProperty Name="Estates" Relationship="RealEstateModel.FK_SanPham_Account" FromRole="Account" ToRole="Estate" />
+        </EntityType>
+        <EntityType Name="AccountRole">
+          <Key>
+            <PropertyRef Name="AccountRoleId" />
+          </Key>
+          <Property Name="AccountRoleId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleId" Type="Int64" />
+          <Property Name="AccountId" Type="Int64" />
+          <Property Name="CreateDate" Type="DateTime" Precision="0" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="Account" Relationship="RealEstateModel.FK_AccountRoles_Account" FromRole="AccountRole" ToRole="Account" />
+          <NavigationProperty Name="Role" Relationship="RealEstateModel.FK_AccountRoles_Roles" FromRole="AccountRole" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Contents" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreateById" Type="Int64" />
+          <Property Name="CreateDate" Type="DateTime" Precision="0" />
+          <Property Name="EstateId" Type="Int64" />
+          <Property Name="NotificationId" Type="Int64" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="Account" Relationship="RealEstateModel.FK_Comment_Account" FromRole="Comment" ToRole="Account" />
+          <NavigationProperty Name="Notification" Relationship="RealEstateModel.FK_Comment_ThongBao" FromRole="Comment" ToRole="Notification" />
+          <NavigationProperty Name="Estate" Relationship="RealEstateModel.FK_Comment_SanPham" FromRole="Comment" ToRole="Estate" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+          <Property Name="LicensePlates" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="0" />
+          <Property Name="IsDelete" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CreatDate" Type="DateTime" Precision="0" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="Accounts" Relationship="RealEstateModel.FK_Account_Departments" FromRole="Department" ToRole="Account" />
+        </EntityType>
+        <EntityType Name="Estate_Types">
+          <Key>
+            <PropertyRef Name="Estate_TypeId" />
+          </Key>
+          <Property Name="Estate_TypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="0" />
+          <Property Name="EditDate" Type="DateTime" Precision="0" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="Estates" Relationship="RealEstateModel.FK_SanPham_LoaiNhaDat" FromRole="Estate_Types" ToRole="Estate" />
+        </EntityType>
+        <EntityType Name="LoginLog">
+          <Key>
+            <PropertyRef Name="LoginLogId" />
+          </Key>
+          <Property Name="LoginLogId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountId" Type="Int64" />
+          <Property Name="IPAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="0" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="Account" Relationship="RealEstateModel.FK_LoginLog_Account" FromRole="LoginLog" ToRole="Account" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Contents" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AccountId" Type="Int64" />
+          <Property Name="CreateDate" Type="DateTime" Precision="0" />
+          <Property Name="AllowComment" Type="Boolean" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="Account" Relationship="RealEstateModel.FK_ThongBao_Account" FromRole="Notification" ToRole="Account" />
+          <NavigationProperty Name="Comments" Relationship="RealEstateModel.FK_Comment_ThongBao" FromRole="Notification" ToRole="Comment" />
+        </EntityType>
+        <EntityType Name="RentUnit">
+          <Key>
+            <PropertyRef Name="RentUnitId" />
+          </Key>
+          <Property Name="RentUnitId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Estates" Relationship="RealEstateModel.FK_SanPham_DonViThue" FromRole="RentUnit" ToRole="Estate" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="0" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="AccountRoles" Relationship="RealEstateModel.FK_AccountRoles_Roles" FromRole="Role" ToRole="AccountRole" />
+        </EntityType>
+        <EntityType Name="SaleUnit">
+          <Key>
+            <PropertyRef Name="SaleUnitId" />
+          </Key>
+          <Property Name="SaleUnitId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Estates" Relationship="RealEstateModel.FK_SanPham_DonViBan" FromRole="SaleUnit" ToRole="Estate" />
+        </EntityType>
+        <EntityType Name="Town">
+          <Key>
+            <PropertyRef Name="TownId" />
+          </Key>
+          <Property Name="TownId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="0" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="Estates" Relationship="RealEstateModel.FK_SanPham_KhuPho" FromRole="Town" ToRole="Estate" />
+        </EntityType>
+        <Association Name="FK_Account_Departments">
+          <End Type="RealEstateModel.Department" Role="Department" Multiplicity="0..1" />
+          <End Type="RealEstateModel.Account" Role="Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountRoles_Account">
+          <End Type="RealEstateModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="RealEstateModel.AccountRole" Role="AccountRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="AccountRole">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Account">
+          <End Type="RealEstateModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="RealEstateModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="CreateById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LoginLog_Account">
+          <End Type="RealEstateModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="RealEstateModel.LoginLog" Role="LoginLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="LoginLog">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThongBao_Account">
+          <End Type="RealEstateModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="RealEstateModel.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountRoles_Roles">
+          <End Type="RealEstateModel.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="RealEstateModel.AccountRole" Role="AccountRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="AccountRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_ThongBao">
+          <End Type="RealEstateModel.Notification" Role="Notification" Multiplicity="0..1" />
+          <End Type="RealEstateModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Notification">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="NotificationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EstateMedia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EstateId" Type="Int64" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FileSize" Type="Int64" />
+          <Property Name="ThumbnailUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int64" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <Property Name="FriendlyFileName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Estate" Relationship="RealEstateModel.FK_EstateMedias_Estates" FromRole="EstateMedia" ToRole="Estate" />
+        </EntityType>
+        <EntityType Name="Estate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Estates_TypeId" Type="Int32" />
+          <Property Name="AccountId" Type="Int64" />
+          <Property Name="TownId" Type="Int64" />
+          <Property Name="SaleOrRent" Type="Int32" />
+          <Property Name="EstateCode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="SalePrice" Type="Double" />
+          <Property Name="SaleUnitId" Type="Int64" />
+          <Property Name="RentPrice" Type="Double" />
+          <Property Name="RentUnitId" Type="Int64" />
+          <Property Name="HouseNumber" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="LotCode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsHot" Type="Boolean" />
+          <Property Name="Lat" Type="Double" />
+          <Property Name="Long" Type="Double" />
+          <Property Name="PinMainText" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LogBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="Account" Relationship="RealEstateModel.FK_SanPham_Account" FromRole="Estate" ToRole="Account" />
+          <NavigationProperty Name="Comments" Relationship="RealEstateModel.FK_Comment_SanPham" FromRole="Estate" ToRole="Comment" />
+          <NavigationProperty Name="Estate_Types" Relationship="RealEstateModel.FK_SanPham_LoaiNhaDat" FromRole="Estate" ToRole="Estate_Types" />
+          <NavigationProperty Name="EstateMedias" Relationship="RealEstateModel.FK_EstateMedias_Estates" FromRole="Estate" ToRole="EstateMedia" />
+          <NavigationProperty Name="SaleUnit" Relationship="RealEstateModel.FK_SanPham_DonViBan" FromRole="Estate" ToRole="SaleUnit" />
+          <NavigationProperty Name="RentUnit" Relationship="RealEstateModel.FK_SanPham_DonViThue" FromRole="Estate" ToRole="RentUnit" />
+          <NavigationProperty Name="Town" Relationship="RealEstateModel.FK_SanPham_KhuPho" FromRole="Estate" ToRole="Town" />
+        </EntityType>
+        <Association Name="FK_SanPham_Account">
+          <End Type="RealEstateModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="RealEstateModel.Estate" Role="Estate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Estate">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_SanPham">
+          <End Type="RealEstateModel.Estate" Role="Estate" Multiplicity="0..1" />
+          <End Type="RealEstateModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="EstateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SanPham_LoaiNhaDat">
+          <End Type="RealEstateModel.Estate_Types" Role="Estate_Types" Multiplicity="0..1" />
+          <End Type="RealEstateModel.Estate" Role="Estate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estate_Types">
+              <PropertyRef Name="Estate_TypeId" />
+            </Principal>
+            <Dependent Role="Estate">
+              <PropertyRef Name="Estates_TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EstateMedias_Estates">
+          <End Type="RealEstateModel.Estate" Role="Estate" Multiplicity="0..1" />
+          <End Type="RealEstateModel.EstateMedia" Role="EstateMedia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EstateMedia">
+              <PropertyRef Name="EstateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SanPham_DonViBan">
+          <End Type="RealEstateModel.SaleUnit" Role="SaleUnit" Multiplicity="0..1" />
+          <End Type="RealEstateModel.Estate" Role="Estate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SaleUnit">
+              <PropertyRef Name="SaleUnitId" />
+            </Principal>
+            <Dependent Role="Estate">
+              <PropertyRef Name="SaleUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SanPham_DonViThue">
+          <End Type="RealEstateModel.RentUnit" Role="RentUnit" Multiplicity="0..1" />
+          <End Type="RealEstateModel.Estate" Role="Estate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RentUnit">
+              <PropertyRef Name="RentUnitId" />
+            </Principal>
+            <Dependent Role="Estate">
+              <PropertyRef Name="RentUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SanPham_KhuPho">
+          <End Type="RealEstateModel.Town" Role="Town" Multiplicity="0..1" />
+          <End Type="RealEstateModel.Estate" Role="Estate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Town">
+              <PropertyRef Name="TownId" />
+            </Principal>
+            <Dependent Role="Estate">
+              <PropertyRef Name="TownId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RealEstateModelStoreContainer" CdmEntityContainer="RealEstateEntities">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="RealEstateModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="LastSignIn" ColumnName="LastSignIn" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountRoles">
+            <EntityTypeMapping TypeName="RealEstateModel.AccountRole">
+              <MappingFragment StoreEntitySet="AccountRoles">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="AccountRoleId" ColumnName="AccountRoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="RealEstateModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
+                <ScalarProperty Name="EstateId" ColumnName="EstateId" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateById" ColumnName="CreateById" />
+                <ScalarProperty Name="Contents" ColumnName="Contents" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="RealEstateModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="LicensePlates" ColumnName="LicensePlates" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="RealEstateModel.Department">
+              <MappingFragment StoreEntitySet="Departments">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="CreatDate" ColumnName="CreatDate" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estate_Types">
+            <EntityTypeMapping TypeName="RealEstateModel.Estate_Types">
+              <MappingFragment StoreEntitySet="Estate_Types">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="EditDate" ColumnName="EditDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Estate_TypeId" ColumnName="Estate_TypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoginLogs">
+            <EntityTypeMapping TypeName="RealEstateModel.LoginLog">
+              <MappingFragment StoreEntitySet="LoginLog">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="LoginLogId" ColumnName="LoginLogId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="RealEstateModel.Notification">
+              <MappingFragment StoreEntitySet="Notifications">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="AllowComment" ColumnName="AllowComment" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Contents" ColumnName="Contents" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RentUnits">
+            <EntityTypeMapping TypeName="RealEstateModel.RentUnit">
+              <MappingFragment StoreEntitySet="RentUnits">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RentUnitId" ColumnName="RentUnitId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="RealEstateModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SaleUnits">
+            <EntityTypeMapping TypeName="RealEstateModel.SaleUnit">
+              <MappingFragment StoreEntitySet="SaleUnits">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SaleUnitId" ColumnName="SaleUnitId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Towns">
+            <EntityTypeMapping TypeName="RealEstateModel.Town">
+              <MappingFragment StoreEntitySet="Towns">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TownId" ColumnName="TownId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstateMedias">
+            <EntityTypeMapping TypeName="RealEstateModel.EstateMedia">
+              <MappingFragment StoreEntitySet="EstateMedias">
+                <ScalarProperty Name="FriendlyFileName" ColumnName="FriendlyFileName" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="ThumbnailUrl" ColumnName="ThumbnailUrl" />
+                <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="EstateId" ColumnName="EstateId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estates">
+            <EntityTypeMapping TypeName="RealEstateModel.Estate">
+              <MappingFragment StoreEntitySet="Estates">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="LogBy" ColumnName="LogBy" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PinMainText" ColumnName="PinMainText" />
+                <ScalarProperty Name="Long" ColumnName="Long" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="IsHot" ColumnName="IsHot" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="LotCode" ColumnName="LotCode" />
+                <ScalarProperty Name="HouseNumber" ColumnName="HouseNumber" />
+                <ScalarProperty Name="RentUnitId" ColumnName="RentUnitId" />
+                <ScalarProperty Name="RentPrice" ColumnName="RentPrice" />
+                <ScalarProperty Name="SaleUnitId" ColumnName="SaleUnitId" />
+                <ScalarProperty Name="SalePrice" ColumnName="SalePrice" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="EstateCode" ColumnName="EstateCode" />
+                <ScalarProperty Name="SaleOrRent" ColumnName="SaleOrRent" />
+                <ScalarProperty Name="TownId" ColumnName="TownId" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Estates_TypeId" ColumnName="Estates_TypeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

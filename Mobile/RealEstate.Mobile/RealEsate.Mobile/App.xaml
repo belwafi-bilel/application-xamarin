@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RealEstate.Mobile.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!--Global Styles-->
+            <Color x:Key="Primary">#f23c8dbc</Color>
+            <Color x:Key="NavigationPrimary">#f23c8dbc</Color>
+            <Color x:Key="BlackColor">#000000</Color>
+            <Color x:Key="GrayColor">#F6F1E9</Color>
+            <Color x:Key="WhiteColor">#ffffff</Color>
+            <Color x:Key="GreenColor">#f2368f94</Color>
+            <Color x:Key="YellowColor">#f2f39c12</Color>
+            <Color x:Key="RedColor">#f2DA2727</Color>
+            <Color x:Key="BlueColor">#f20C23F5</Color>
+            <Color x:Key="OrangeColor">#f2BC4C1B</Color>
+            <Color x:Key="LightTextColor">#999999</Color>
+            <Color x:Key="BlackTextColor">#f2253748</Color>
+            <Color x:Key="ValidationErrorColor">#FF204F</Color>
+            <Color x:Key="HeadLineColor">#008000</Color>
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
+                <Setter Property="BarTextColor" Value="White" />
+            </Style>
+
+            <!--FONTS-->
+            <OnPlatform x:Key="NunitoRegular"
+                        x:TypeArguments="x:String" Android="Nunito-Regular.ttf#Nunito" iOS="Nunito-Regular">
+            </OnPlatform>
+            <OnPlatform x:Key="NunitoItalic"
+                        x:TypeArguments="x:String" Android="Nunito-Italic.ttf#Nunito" iOS="Nunito-Italic">
+            </OnPlatform>
+            <OnPlatform x:Key="NunitoBold"
+                        x:TypeArguments="x:String" Android="Nunito-Bold.ttf#Nunito" iOS="Nunito-Bold">
+            </OnPlatform>
+            
+            <!--SIZES-->
+            <OnPlatform x:Key="LittleSize"
+                        x:TypeArguments="x:Double" Android="12" iOS="11">
+            </OnPlatform>
+
+            <OnPlatform x:Key="MidMediumSize"
+                        x:TypeArguments="x:Double" Android="14" iOS="13">
+            </OnPlatform>
+
+            <OnPlatform x:Key="MediumSize"
+                        x:TypeArguments="x:Double" Android="16" iOS="15">
+            </OnPlatform>
+
+            <OnPlatform x:Key="LargeSize"
+                        x:TypeArguments="x:Double" Android="18" iOS="17">
+            </OnPlatform>
+
+            <OnPlatform x:Key="LargerSize"
+                        x:TypeArguments="x:Double" Android="20" iOS="19">
+            </OnPlatform>
+            <OnPlatform x:Key="BigSize"
+                        x:TypeArguments="x:Double" Android="22" iOS="21">
+            </OnPlatform>
+
+            <OnPlatform x:Key="BiggerSize"
+                        x:TypeArguments="x:Double" Android="24" iOS="23">
+            </OnPlatform>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

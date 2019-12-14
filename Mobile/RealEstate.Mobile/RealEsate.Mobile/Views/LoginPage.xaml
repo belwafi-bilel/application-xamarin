@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+             xmlns:SyncfusionButton="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:busyIndicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
+             xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
+             xmlns:customViews="clr-namespace:RealEstate.Mobile.CustomControls;assembly=RealEstate.Mobile" 
+             x:Class="RealEstate.Mobile.Views.LoginPage"
+             Title="Login">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="LogoStyle" 
+                   TargetType="Image">
+                <Setter Property="Aspect" 
+                        Value="AspectFit" />
+                <Setter Property="HeightRequest" 
+                        Value="95" />
+                <Setter Property="Margin" 
+                        Value="30, 16" />
+                <Setter Property="HorizontalOptions"
+                        Value="Center" />
+                <Setter Property="VerticalOptions"
+                        Value="Start" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <Image x:Name="background" Aspect="AspectFill" Source="bg.png" Opacity="0.7"/>
+
+            <StackLayout Orientation="Vertical" Margin="20" VerticalOptions="CenterAndExpand">
+                <StackLayout.Spacing>
+                    <OnPlatform x:TypeArguments="x:Double" Android="-15" iOS="0"/>
+                </StackLayout.Spacing>
+                <Image x:Name="logo"
+                           HeightRequest="100"
+                           Aspect="AspectFit" Margin="30,16" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Image.Source>
+                        <OnPlatform x:TypeArguments="ImageSource" Android="logo.png" iOS="logo.png"/>
+                    </Image.Source>
+                </Image>
+
+                <!--<border:SfBorder BorderColor="White" BorderWidth="1" CornerRadius="25" BackgroundColor="Transparent">
+                    <customViews:BorderlessEntry Placeholder="Username" HeightRequest="45" Text="{Binding UserName}" Margin="30,0,0,0"
+                                                     TextColor="{StaticResource WhiteColor}"
+                                                     FontFamily="{StaticResource NunitoRegular}" BackgroundColor="Transparent" PlaceholderColor="#a1a1a1"></customViews:BorderlessEntry>
+                </border:SfBorder>
+                <border:SfBorder BorderColor="White" BorderWidth="1" CornerRadius="25" BackgroundColor="Transparent">
+                    <customViews:BorderlessEntry Placeholder="Password" HeightRequest="45" IsPassword="True" Text="{Binding Password}"
+                                                     TextColor="{StaticResource WhiteColor}"
+                                                     Margin="30,0,0,0" FontFamily="{StaticResource NunitoRegular}" BackgroundColor="Transparent" PlaceholderColor="#a1a1a1"></customViews:BorderlessEntry>
+                </border:SfBorder>-->
+                <inputLayout:SfTextInputLayout x:Name="nameLayout"
+                                                   ContainerType="Outlined" OutlineCornerRadius="23"
+                                                   FocusedColor="{StaticResource Primary}"
+                                               UnfocusedColor="{StaticResource WhiteColor}"
+                                                   HasError="{Binding IsNameEmpty}"
+                                                   Hint="Email"
+                                                   LeadingViewPosition="Inside">
+
+                    <Entry x:Name="name" Text="{Binding UserName}" TextColor="{StaticResource WhiteColor}" Keyboard="Email">
+                        <Entry.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double" Android="46" iOS="18">
+                            </OnPlatform>
+                        </Entry.HeightRequest>
+                    </Entry>
+
+                    <inputLayout:SfTextInputLayout.LeadingView>
+                        <Label FontSize="18" 
+                                   Text="&#xf406;"
+                                   TextColor="{Binding Path=CurrentActiveColor, Source={x:Reference Name=nameLayout}}"
+                                   VerticalTextAlignment="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                    </inputLayout:SfTextInputLayout.LeadingView>
+                </inputLayout:SfTextInputLayout>
+
+                <inputLayout:SfTextInputLayout x:Name="passwordLayout"
+                                                   CharMaxLength="20"
+                                                   ContainerType="Outlined" OutlineCornerRadius="23"
+                                                   FocusedColor="{StaticResource Primary}"
+                                               UnfocusedColor="{StaticResource WhiteColor}"
+                                                   EnablePasswordVisibilityToggle="True"
+                                                   HasError="{Binding IsPasswordEmpty}"
+                                                   Hint="Password"
+                                               LeadingViewPosition="Inside"
+                                                   ShowCharCount="True">
+                    <Entry x:Name="password"
+                           MaxLength="20"
+                               IsPassword="True"
+                           TextColor="{StaticResource WhiteColor}"
+                               Text="{Binding Password}">
+                        <Entry.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double" Android="46" iOS="18">
+                            </OnPlatform>
+                        </Entry.HeightRequest>
+                    </Entry>
+
+                    <inputLayout:SfTextInputLayout.LeadingView>
+                        <Label FontSize="18"
+                                   Text="&#xf084;"
+                                   TextColor="{Binding Path=CurrentActiveColor, Source={x:Reference Name=passwordLayout}}"
+                                   VerticalTextAlignment="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                    </inputLayout:SfTextInputLayout.LeadingView>
+                </inputLayout:SfTextInputLayout>
+
+                <Label Text="Forgot password?" Margin="0,20,0,20" FontFamily="{StaticResource NunitoRegular}" TextColor="{StaticResource WhiteColor}" HorizontalOptions="End" FontSize="14">
+                </Label>
+                
+                <SyncfusionButton:SfButton x:Name="loginButton" Margin="0,20,0,0" HeightRequest="45" VerticalOptions="Start" HorizontalOptions="Center"
+                                           Text="SIGN IN" CornerRadius="25" FontSize="16"
+                                           BackgroundColor="{StaticResource Primary}"
+                                           Command="{Binding LoginCommand}"/>
+
+                <Label Text="Or Sign in with" Margin="0,30,0,30" HorizontalOptions="Center" TextColor="{StaticResource WhiteColor}" FontFamily="{StaticResource NunitoRegular}"/>
+                <Button Text="Facebook" FontFamily="{StaticResource NunitoRegular}" HeightRequest="45" CornerRadius="25" BackgroundColor="Blue" TextColor="White" FontSize="16"></Button>
+
+                <StackLayout Margin="0,20,0,20" HorizontalOptions="Center" Orientation="Horizontal" Spacing="1">
+                    <StackLayout.VerticalOptions>
+                        <OnIdiom x:TypeArguments="LayoutOptions" Phone="Fill" Desktop="EndAndExpand" Tablet="EndAndExpand" />
+                    </StackLayout.VerticalOptions>
+                    <Label Text="Don't have account?" FontFamily="{StaticResource NunitoRegular}" TextColor="{StaticResource WhiteColor}" HorizontalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"/>
+                    <Button Text="Sign Up" TextColor="{StaticResource WhiteColor}"
+                                BackgroundColor="Transparent" FontFamily="{StaticResource NunitoRegular}"/>
+                </StackLayout>
+            </StackLayout>
+            <customViews:LoadingIndicator 
+                    Grid.Row="0"
+                    IsRunning="{Binding IsBusy, Mode=TwoWay} " 
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

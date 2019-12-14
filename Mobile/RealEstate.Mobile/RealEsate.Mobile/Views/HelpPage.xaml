@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RealEstate.Mobile.Views.HelpPage"
+             Title="Help">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Notifications"
+                     Name="NotifyItem"
+                     Order="Primary"
+                     Priority="0" Clicked="NotifyItem_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource" Android="reminder.png" iOS="reminder.png"/>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                    <ContentView Padding="0,40,0,40" VerticalOptions="FillAndExpand">
+                        <Image Source="logo.png" VerticalOptions="Center" HeightRequest="64" />
+                    </ContentView>
+                </StackLayout>
+            </StackLayout>
+            <ScrollView Grid.Row="1">
+                <StackLayout Orientation="Vertical" Padding="16,40,16,40" Spacing="10">
+                    <Label FontSize="22" HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <FormattedString.Spans>
+                                    <Span Text="Products Management Application" FontAttributes="Bold" FontSize="18" />
+                                    <Span Text=" " />
+                                    <Span Text="&#xA;" />
+                                    <Span Text="Real Estate " FontAttributes="Bold" FontSize="25"  TextColor="Red"  />
+                                    <Span Text="&#xA;" />
+                                    <Span Text="{Binding VersionNumber, StringFormat='Version: {0:N}'}" FontSize="16"/>
+                                </FormattedString.Spans>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label HorizontalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <FormattedString.Spans>
+                                    <Span Text="www.realestate-management.com" FontAttributes="Bold" />                                                                 
+                                </FormattedString.Spans>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Button FontSize="12" Margin="0,10,0,0" Text=" Support:  John Doe 0123 456 789"
+                        Command="{Binding CallCommand}" CommandParameter="0123 456 789"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White" />
+                        
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

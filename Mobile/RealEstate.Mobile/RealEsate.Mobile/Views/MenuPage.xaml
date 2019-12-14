@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+              xmlns:SyncfusionButton="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:local="clr-namespace:RealEstate.Mobile.CustomControls"
+             x:Class="RealEstate.Mobile.Views.MenuPage"
+             Title="Menu">
+    <ContentPage.Resources>
+        <Style x:Key="MainMenuTitleStyle" 
+               TargetType="{x:Type Label}">
+            <Setter Property="FontFamily"
+                        Value="{StaticResource NunitoRegular}" />
+            <Setter Property="FontSize" 
+                        Value="{StaticResource LargeSize}" />
+            <Setter Property="HorizontalOptions" 
+                        Value="Start" />
+            <Setter Property="VerticalOptions" 
+                        Value="Center" />
+            <Setter Property="Margin" 
+                        Value="12, 0" />
+            <Setter Property="TextColor" Value="{StaticResource BlackTextColor}" />
+        </Style>
+
+        <Style x:Key="MainHeaderLabelStyle" 
+               TargetType="{x:Type Label}">
+            <Setter Property="FontFamily"
+                        Value="{StaticResource NunitoRegular}" />
+            <Setter Property="FontSize"
+                        Value="{StaticResource MediumSize}" />
+            <Setter Property="TextColor"
+                        Value="{StaticResource WhiteColor}" />
+            <Setter Property="HorizontalOptions"
+                        Value="Start" />
+            <Setter Property="Margin"
+                        Value="20,0" />
+        </Style>
+    </ContentPage.Resources>
+    
+    <Grid BackgroundColor="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Image Source="navigation.png" Aspect="AspectFill" />
+        <Grid>
+            <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand">
+            
+                <Image Margin="5,0,0,0" Source="logo_circle.png" HeightRequest="60" WidthRequest="60" />
+                <Label Text="PerfectReal" Style="{StaticResource MainHeaderLabelStyle}" />
+                <Label x:Name="LabelName" Style="{StaticResource MainHeaderLabelStyle}" />
+
+            </StackLayout>
+        </Grid>
+        <StackLayout Grid.Row="1" Spacing="15">
+            <ListView x:Name="ListViewMenu"
+                    HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="10" Orientation="Horizontal">
+                                <Label FontSize="18" WidthRequest="20" Text="{Binding Icon}"
+                                       TextColor="#f23c8dbc"
+                                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+                                    <Label.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                        </OnPlatform>
+                                    </Label.FontFamily>
+                                </Label>
+                                <Label Margin="8,0,0,0" Text="{Binding Title}" Style="{StaticResource MainMenuTitleStyle}"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+          
+        </StackLayout>
+    </Grid>
+</ContentPage>

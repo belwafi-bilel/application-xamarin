@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+             xmlns:sync="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:sfPopup="clr-namespace:Syncfusion.XForms.PopupLayout;assembly=Syncfusion.SfPopupLayout.XForms"
+             xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
+             x:Name="SortingPopup"
+             x:Class="RealEstate.Mobile.Views.SortingPopupPage">
+    <pages:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="PopupItemHeaderStyle" 
+                   TargetType="{x:Type Label}">
+                <Setter Property="FontFamily"
+                        Value="{StaticResource NunitoBold}" />
+                <Setter Property="FontSize"
+                        Value="{StaticResource LargeSize}" />
+                <Setter Property="TextColor"
+                        Value="{StaticResource WhiteColor}" />
+                <Setter Property="HorizontalTextAlignment"
+                        Value="Start" />
+                <Setter Property="VerticalTextAlignment"
+                        Value="Center" />
+                <Setter Property="Margin"
+                        Value="0,0,0,0" />
+            </Style>
+
+            <Style x:Key="PopupLabelStyle" 
+                   TargetType="{x:Type Label}">
+                <Setter Property="FontFamily"
+                        Value="{StaticResource NunitoRegular}" />
+                <Setter Property="FontSize"
+                        Value="{StaticResource MidMediumSize}" />
+                <Setter Property="TextColor"
+                        Value="Black" />
+                <Setter Property="HorizontalOptions"
+                        Value="Center" />
+                <Setter Property="VerticalTextAlignment"
+                        Value="Center" />
+                <Setter Property="Margin"
+                        Value="0,0,0,0" />
+            </Style>
+        </ResourceDictionary>
+    </pages:PopupPage.Resources>
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation PositionIn="Bottom" PositionOut="Center" ScaleIn="1" ScaleOut="0.7" DurationIn="700" EasingIn="SpringOut"/>
+    </pages:PopupPage.Animation>
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="20" Margin="30">
+        <border:SfBorder x:Name="border" CornerRadius="20" BorderWidth="1" BorderColor="#3c8dbc">
+            <StackLayout IsClippedToBounds="True" BackgroundColor="White">
+                <Grid RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Text="Sorting" Style="{StaticResource PopupItemHeaderStyle}"
+                           HorizontalTextAlignment="Center" BackgroundColor="{StaticResource Primary}" />
+
+                    <ScrollView Grid.Row="1" Orientation="Vertical">
+
+                        <sync:SfRadioGroup x:Name="sortingGroup" Orientation="Vertical" Margin="15" >
+                            <sync:SfRadioButton x:Name="lastedProducts" Text="Lasted" FontFamily="{StaticResource NunitoRegular}" FontSize="{StaticResource MediumSize}"
+                                                    TextColor="Black" StateChanged="OnLasted_StateChanged"/>
+                            <Frame CornerRadius="0" Padding="0" BackgroundColor="#29000000" HasShadow="False" HeightRequest="1" />
+                            <sync:SfRadioButton x:Name="oldestProducts" Text="Oldest" FontFamily="{StaticResource NunitoRegular}" FontSize="{StaticResource MediumSize}"
+                                                    TextColor="Black" StateChanged="OnOldest_StateChanged"/>
+                            <Frame CornerRadius="0" Padding="0" BackgroundColor="#29000000" HasShadow="False" HeightRequest="1" />
+                            <sync:SfRadioButton x:Name="salePriceDescending" Text="Sale price descending" FontFamily="{StaticResource NunitoRegular}" FontSize="{StaticResource MediumSize}"
+                                                    TextColor="Black" StateChanged="OnSalePriceDescending_StateChanged"/>
+                            <Frame CornerRadius="0" Padding="0" BackgroundColor="#29000000" HasShadow="False" HeightRequest="1" />
+                            <sync:SfRadioButton x:Name="salePriceAscending" Text="Sale price ascending" FontFamily="{StaticResource NunitoRegular}" FontSize="{StaticResource MediumSize}"
+                                                    TextColor="Black" StateChanged="OnSalePriceAscending_StateChanged"/>
+                            <Frame CornerRadius="0" Padding="0" BackgroundColor="#29000000" HasShadow="False" HeightRequest="1" />
+                            <sync:SfRadioButton x:Name="rentPriceDescending" Text="Sale price descending" FontFamily="{StaticResource NunitoRegular}" FontSize="{StaticResource MediumSize}"
+                                                    TextColor="Black" StateChanged="OnRentPriceDescending_StateChanged"/>
+                            <Frame CornerRadius="0" Padding="0" BackgroundColor="#29000000" HasShadow="False" HeightRequest="1" />
+                            <sync:SfRadioButton x:Name="rentPriceAscending" Text="Sale price ascending" FontFamily="{StaticResource NunitoRegular}" FontSize="{StaticResource MediumSize}"
+                                                    TextColor="Black" StateChanged="OnRentPriceAscending_StateChanged"/>
+                            <Frame CornerRadius="0" Padding="0" BackgroundColor="#29000000" HasShadow="False" HeightRequest="1" />
+                            <sync:SfRadioButton x:Name="areaDescending" Text="Area descending" FontFamily="{StaticResource NunitoRegular}" FontSize="{StaticResource MediumSize}"
+                                                    TextColor="Black" StateChanged="OnAreaDescending_StateChanged"/>
+                            <Frame CornerRadius="0" Padding="0" BackgroundColor="#29000000" HasShadow="False" HeightRequest="1" />
+                            <sync:SfRadioButton x:Name="areaAscending" Text="Area ascending" FontFamily="{StaticResource NunitoRegular}" FontSize="{StaticResource MediumSize}"
+                                                    TextColor="Black" StateChanged="OnAreaAscending_StateChanged"/>
+                            <Frame CornerRadius="0" Padding="0" BackgroundColor="#29000000" HasShadow="False" HeightRequest="1" />
+                            <sync:SfRadioButton x:Name="productCodeAscending" Text="Product code (AZ)" FontFamily="{StaticResource NunitoRegular}" FontSize="{StaticResource MediumSize}"
+                                                    TextColor="Black" StateChanged="OnProductCodeAscending_StateChanged"/>
+                            <Frame CornerRadius="0" Padding="0" BackgroundColor="#29000000" HasShadow="False" HeightRequest="1" />
+                            <sync:SfRadioButton x:Name="productCodeDescending" Text="Product code (ZA)" FontFamily="{StaticResource NunitoRegular}" FontSize="{StaticResource MediumSize}"
+                                                    TextColor="Black" StateChanged="OnProductCodeDescending_StateChanged"/>
+                        </sync:SfRadioGroup>
+
+                    </ScrollView>
+
+                </Grid>
+            </StackLayout>
+        </border:SfBorder>
+    </StackLayout>
+</pages:PopupPage>

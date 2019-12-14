@@ -1,0 +1,1164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sync="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:pulltoRefresh="clr-namespace:Syncfusion.SfPullToRefresh.XForms;assembly=Syncfusion.SfPullToRefresh.XForms"
+             xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:views="clr-namespace:SuaveControls.Views;assembly=SuaveControls.FloatingActionButton"
+             xmlns:customViews="clr-namespace:RealEstate.Mobile.CustomControls;assembly=RealEstate.Mobile" 
+             xmlns:helpers="clr-namespace:Syncfusion.ListView.XForms.Helpers;assembly=Syncfusion.SfListView.XForms"
+             xmlns:tabView="clr-namespace:Syncfusion.XForms.TabView;assembly=Syncfusion.SfTabView.XForms"
+             x:Class="RealEstate.Mobile.Views.MyProductPage"
+             xmlns:converters="clr-namespace:RealEstate.Mobile.Converters"
+             xmlns:local="clr-namespace:RealEstate.Mobile.ViewModels"
+             Title="{Binding Title}"
+             x:Name="BrowseItemsPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ProductNameStyle" 
+               TargetType="{x:Type Label}">
+                <Setter Property="FontFamily" Value="{StaticResource NunitoBold}" />
+                <Setter Property="FontSize" Value="{StaticResource LittleSize}" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,0,0,0" />
+                <Setter Property="TextColor" Value="{StaticResource GreenColor}" />
+            </Style>
+            <Style x:Key="SmallTextStyle" TargetType="{x:Type Label}">
+                <Setter Property="FontFamily" Value="{StaticResource NunitoRegular}" />
+                <Setter Property="FontSize" Value="{StaticResource LittleSize}" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,0,0,0" />
+            </Style>
+            <Style x:Key="SpanSmallTextStyle" 
+               TargetType="{x:Type Span}">
+                <Setter Property="FontSize" 
+                        Value="{StaticResource LittleSize}" />
+            </Style>
+            <Style x:Key="ProductIdStyle" 
+                   TargetType="{x:Type Label}">
+                <Setter Property="FontFamily"
+                        Value="{StaticResource NunitoRegular}" />
+                <Setter Property="FontSize" 
+                        Value="{StaticResource LittleSize}" />
+                <Setter Property="HorizontalOptions" 
+                        Value="Start" />
+                <Setter Property="VerticalOptions" 
+                        Value="Start" />
+                <Setter Property="Margin" 
+                        Value="0, 0" />
+                <Setter Property="TextColor" Value="{StaticResource BlackTextColor}" />
+            </Style>
+            <Style x:Key="ProductPriceStyle" 
+                   TargetType="{x:Type Label}">
+                <Setter Property="FontFamily"
+                        Value="{StaticResource NunitoRegular}" />
+                <Setter Property="FontSize" 
+                        Value="{StaticResource LittleSize}" />
+                <Setter Property="HorizontalOptions" 
+                        Value="Start" />
+                <Setter Property="VerticalOptions" 
+                        Value="Start" />
+                <Setter Property="TextColor" Value="{StaticResource OrangeColor}" />
+            </Style>
+            <helpers:InverseBoolConverter x:Key="inverseBoolConverter"/>
+            <converters:ProductToColorConverter x:Key="productColorConverter"/>
+            <converters:HouseNumberConverter x:Key="houseNumberConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <!--<ToolbarItem
+            Name="logo"
+            Text="Perfect Real"
+            Order="Primary"
+            Priority="1">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS, Android" Value="logo_circle.png" />
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>-->
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid>
+            <Grid RowSpacing="0" ColumnSpacing="0" >
+
+                <Grid Grid.Row="0" Margin="0,0,0,0" BackgroundColor="White">
+                    <tabView:SfTabView x:Name="tabView" DisplayMode="Text"
+                                   SelectionChanged="OnTab_SelectionChanged"
+                                   EnableSwiping="false"
+                                   BackgroundColor="{StaticResource GrayColor}"
+                               VisibleHeaderCount="4"
+                               TabHeight="50">
+                        <tabView:SfTabView.SelectionIndicatorSettings>
+                            <tabView:SelectionIndicatorSettings
+                                Color="{StaticResource OrangeColor}" 
+                                Position="Bottom"
+                            StrokeThickness="5"/>
+                        </tabView:SfTabView.SelectionIndicatorSettings>
+
+                        <!--Listing of all products-->
+                        <tabView:SfTabItem x:Name="tabProduct"  Title="All" TitleFontColor="Black" SelectionColor="{StaticResource OrangeColor}"
+                                       TitleFontSize="14">
+                            <tabView:SfTabItem.Content>
+                                <pulltoRefresh:SfPullToRefresh x:Name="pulltoRefresh"
+                                           IsRefreshing="{Binding IsRefreshing}"
+                                           PullingThreshold="150"
+                                           Refreshing="Handle_Refreshing"
+                                           RefreshContentHeight="50"
+                                           RefreshContentWidth="50"
+                                           TransitionMode="Push"
+                                           ProgressStrokeWidth="{OnPlatform Android={OnIdiom Phone=8, Tablet=3}, iOS={OnIdiom Phone=2, Tablet= 2}, UWP={OnIdiom Phone=3, Tablet=2, Desktop=2}, macOS=2}">
+                                    <pulltoRefresh:SfPullToRefresh.PullableContent>
+                                        <sync:SfListView x:Name="productList" AutomationId="productList"
+                                     IsStickyHeader="true"
+                                     SelectionMode="Single"
+                                     AllowSwiping="true"
+                                     SwipeStarted="Handle_SwipeStarted"
+                                     SwipeEnded="Handle_SwipeEnded"
+                                     SelectionChanged="Handle_SelectionChanged"
+                                     ItemsSource="{Binding Products}"
+                                     IsBusy="{Binding IsBusy,Mode=TwoWay}"
+                                     Margin="8,0,5,0"
+                                     ItemSpacing="0,2,0,0"
+                                     LoadMoreOption="Manual"
+                                     LoadMoreCommand="{Binding LoadMoreProductsCommand}"
+                                     LoadMoreCommandParameter="{Binding Source={x:Reference Name=productList}}"
+                                     BackgroundColor="#E4E4E4"
+                                     SelectionBackgroundColor="#ECECEC"
+                                     AutoFitMode="Height">
+                                            <sync:SfListView.SwipeOffset>
+                                                <OnIdiom x:TypeArguments="x:Double" Phone="100" Tablet="200" Desktop="200" />
+                                            </sync:SfListView.SwipeOffset>
+                                            <sync:SfListView.SwipeThreshold>
+                                                <OnIdiom x:TypeArguments="x:Double" Phone="50" Tablet="100" Desktop="100" />
+                                            </sync:SfListView.SwipeThreshold>
+                                            <sync:SfListView.HeaderTemplate>
+                                                <DataTemplate>
+                                                    <Grid HeightRequest="35" IsVisible="{Binding HasProduct}" BackgroundColor="White">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="0.5*"/>
+                                                            <ColumnDefinition Width="0.5*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackLayout HorizontalOptions="Start" Orientation="Horizontal" Grid.Column="0" WidthRequest="60" BackgroundColor="Transparent">
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="OnSort_Tapped"/>
+                                                            </StackLayout.GestureRecognizers>
+                                                            <Label Text="&#xf160;" FontSize="Medium" HorizontalTextAlignment="Start" HorizontalOptions="Start" VerticalOptions="Center" TextColor= "{StaticResource Primary}" Margin="8,0,0,0">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid"/>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                        </StackLayout>
+                                                        <Grid HorizontalOptions="End" Grid.Column="1" WidthRequest="60" BackgroundColor="Transparent">
+                                                            <Grid.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="OnFilter_Tapped"/>
+                                                            </Grid.GestureRecognizers>
+                                                            <Label Text="&#xf0b0;" FontSize="Medium" HorizontalTextAlignment="End" HorizontalOptions="End" VerticalOptions="Center" TextColor= "{StaticResource Primary}"  Margin="0,0,8,0">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid"/>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </sync:SfListView.HeaderTemplate>
+                                            <sync:SfListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid RowSpacing="0" ColumnSpacing="0" Padding="0" Margin="0" BackgroundColor="White">
+                                                        <Grid.RowDefinitions >
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="23"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="0.02*"/>
+                                                            <ColumnDefinition Width="0.03*"/>
+                                                            <ColumnDefinition Width="0.95*"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <StackLayout Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                                        BackgroundColor="{StaticResource HeadLineColor}">
+
+                                                        </StackLayout>
+                                                        <!--<Grid Grid.Row="0" Grid.Column="1">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="0.5*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Image Grid.Row="0" Margin="8,3,8,3" Source="logo.png" VerticalOptions="Start" WidthRequest="50" HeightRequest="50"/>
+                                                        <Image Grid.Row="1" IsVisible="{Binding IsHot, Mode=TwoWay}" Source="Favorites1.png" HorizontalOptions="Center" VerticalOptions="Start" HeightRequest="18" />
+                                                    </Grid>-->
+
+                                                        <Grid Grid.Row="0" Grid.Column="2" Margin="0,2,0,0" RowSpacing="0">
+                                                            <Grid.RowDefinitions >
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="0.2*"/>
+                                                                <RowDefinition Height="0.2*"/>
+                                                                <RowDefinition Height="0.2*"/>
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="0.5*"/>
+                                                                <ColumnDefinition Width="0.5*"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                </Grid.ColumnDefinitions>
+
+                                                                <StackLayout Grid.Column="0" Orientation="Horizontal" VerticalOptions="Center">
+                                                                    <Image  IsVisible="{Binding IsHot, Mode=TwoWay}" Source="Favorites1.png" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="18"/>
+                                                                    <Label  Text="{Binding TownName, Mode=TwoWay}" Style="{StaticResource ProductNameStyle}" VerticalOptions="Center" HorizontalOptions="Start"/>
+                                                                </StackLayout>
+                                                                <!--<Label  Text="{Binding TownName, Mode=TwoWay}" Grid.Row="0" Grid.Column="0" Style="{StaticResource ProductNameStyle}"
+                                                                   VerticalOptions="Center" HorizontalOptions="Start"/>-->
+                                                                <StackLayout Orientation="Horizontal" Margin="5,0,0,0" HorizontalOptions="End" Grid.Row="0" Grid.Column="1"
+                                                                         IsVisible="{Binding ShowOwnerInfo}">
+                                                                    <Label  Text="{Binding OwnerInfo.Name, Mode=TwoWay}"  Style="{StaticResource ProductNameStyle}" HorizontalOptions="End" HorizontalTextAlignment="End"/>
+                                                                    <Label  Text="{Binding OwnerInfo.Mobile, Mode=TwoWay}"  Style="{StaticResource ProductNameStyle}" HorizontalOptions="End" HorizontalTextAlignment="End">
+                                                                    </Label>
+                                                                </StackLayout>
+                                                            </Grid>
+
+                                                            <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Horizontal" VerticalOptions="Center">
+                                                                <Label Text="{Binding ProductName, Mode=TwoWay}" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                                <Label Text="{Binding Path=., Converter={StaticResource houseNumberConverter}, Mode=TwoWay}"
+                                                   FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            </StackLayout>
+
+                                                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Rent: " FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}"/>
+                                                                        <Span Text="{Binding RentPrice,StringFormat='{0:#,##.00}', Mode=TwoWay} " FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}" TextColor="{StaticResource OrangeColor}"/>
+                                                                        <Span Text=" "/>
+                                                                        <Span Text="{Binding RentUnit, Mode=TwoWay}" FontFamily="{StaticResource NunitoRegular}" FontSize="9"/>
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+
+                                                            <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal" VerticalOptions="Center">
+                                                                <Label Text="Area:" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                                <Label Text="{Binding Area, Mode=TwoWay}" TextColor="LightSteelBlue" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            </StackLayout>
+                                                            <Label Grid.Row="2" Grid.Column="1" VerticalOptions="Center">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Sale: " FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}"/>
+                                                                        <Span Text="{Binding SalePrice,StringFormat='{0:#,##.00}', Mode=TwoWay}" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}" TextColor="{StaticResource OrangeColor}"/>
+                                                                        <Span Text=" "/>
+                                                                        <Span Text="{Binding SaleUnit, Mode=TwoWay}" FontFamily="{StaticResource NunitoRegular}" FontSize="9"/>
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+
+                                                            <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalOptions="Center">
+                                                                <Label FontSize="12" Text="&#xf007;" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+                                                                    <Label.FontFamily>
+                                                                        <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                        </OnPlatform>
+                                                                    </Label.FontFamily>
+                                                                </Label>
+                                                                <Label>
+                                                                    <Label.FormattedText>
+                                                                        <FormattedString>
+                                                                            <Span Text="{Binding StaffInfo.Name, Mode=TwoWay}" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}"/>
+                                                                            <Span Text=" - "/>
+                                                                            <Span Text="{Binding StaffInfo.Mobile, Mode=TwoWay} " FontFamily="{StaticResource NunitoRegular}" 
+                                                              FontSize="{StaticResource MidMediumSize}" TextColor="{StaticResource OrangeColor}"/>
+
+                                                                        </FormattedString>
+                                                                    </Label.FormattedText>
+                                                                </Label>
+                                                            </StackLayout>
+                                                        </Grid>
+                                                        <Grid HeightRequest="30" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="0.08*"/>
+                                                                <ColumnDefinition Width="0.42*"/>
+                                                                <ColumnDefinition Width="0.08*"/>
+                                                                <ColumnDefinition Width="0.42*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" FontSize="12" Text="&#xf783;"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                    </OnPlatform>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                            <Label Grid.Column="1" Text="{Binding CreatedDate, StringFormat='{0:dd/MM/yyyy h:mm tt}'}"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Center"
+                                                   MaxLines="2" LineBreakMode="WordWrap"
+                                                   TextColor="LightSteelBlue" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            <Label Grid.Column="2" FontSize="12" Text="&#xf274;" 
+                                                   VerticalTextAlignment="Center"
+                                                   VerticalOptions="Center">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                    </OnPlatform>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                            <Label Grid.Column="3" Text="{Binding UpdatedDate, StringFormat='{0:dd/MM/yyyy h:mm tt}'}"
+                                                   VerticalOptions="Center"
+                                                   MaxLines="2" LineBreakMode="WordWrap"
+                                                   TextColor="LightSteelBlue" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            <Grid.Margin>
+                                                                <OnPlatform x:TypeArguments="Thickness">
+                                                                    <On Platform="iOS">0,5,0,5</On>
+                                                                    <On Platform="Android">0,4,0,4</On>
+                                                                </OnPlatform>
+                                                            </Grid.Margin>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </sync:SfListView.ItemTemplate>
+                                            <sync:SfListView.RightSwipeTemplate>
+                                                <DataTemplate x:Name="RightSwipeTemplate">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid BackgroundColor="#fcfce8" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Column="0">
+                                                            <Grid.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="OnEdit_Tapped"  CommandParameter="{Binding .}"/>
+                                                            </Grid.GestureRecognizers>
+                                                            <Label FontSize="24" 
+                                                       Text="&#xf044;"
+                                                       TextColor="Green"
+                                                       WidthRequest="28"
+                                                       HeightRequest="28"
+                                                       HorizontalOptions="Center"
+                                                       VerticalTextAlignment="Center">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                    </OnPlatform>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                        </Grid>
+
+                                                        <Grid BackgroundColor="#fcfce8" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Column="1">
+                                                            <Grid.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="OnDelete_Tapped"  CommandParameter="{Binding .}"/>
+                                                            </Grid.GestureRecognizers>
+
+                                                            <Label FontSize="24"
+                                                       Text="&#xf2ed;"
+                                                       TextColor="Red"
+                                                       HorizontalOptions="Center"
+                                                       VerticalTextAlignment="Center">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                    </OnPlatform>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </sync:SfListView.RightSwipeTemplate>
+                                            <sync:SfListView.LoadMoreTemplate>
+                                                <DataTemplate>
+                                                    <Grid HeightRequest="70" IsVisible="{Binding CanLoadMoreProduct}">
+                                                        <Label Text="Load more..." TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                                           HorizontalOptions="Center"
+                                           IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}, Source={x:Reference Name=productList}}" />
+
+                                                        <sync:LoadMoreIndicator IsRunning="{Binding IsBusy, Source={x:Reference Name=productList}}" 
+                                                            IsVisible="{Binding IsBusy, Source={x:Reference Name=productList}}"
+                                                            Color="Green" VerticalOptions="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </sync:SfListView.LoadMoreTemplate>
+                                        </sync:SfListView>
+                                    </pulltoRefresh:SfPullToRefresh.PullableContent>
+                                </pulltoRefresh:SfPullToRefresh>
+                            </tabView:SfTabItem.Content>
+                        </tabView:SfTabItem>
+
+                        <!--Listing of on-expiring products-->
+                        <tabView:SfTabItem Title="On-Expiring" TitleFontColor="Black" SelectionColor="{StaticResource OrangeColor}"
+                                       TitleFontSize="14">
+                            <tabView:SfTabItem.Content>
+                                <pulltoRefresh:SfPullToRefresh x:Name="onExpiringPulltoRefresh"
+                                           IsRefreshing="{Binding IsRefreshing}"
+                                           PullingThreshold="150"
+                                           Refreshing="Handle_Refreshing"
+                                           RefreshContentHeight="50"
+                                           RefreshContentWidth="50"
+                                           TransitionMode="Push"
+                                           ProgressStrokeWidth="{OnPlatform Android={OnIdiom Phone=8, Tablet=3}, iOS={OnIdiom Phone=2, Tablet= 2}, UWP={OnIdiom Phone=3, Tablet=2, Desktop=2}, macOS=2}">
+                                    <pulltoRefresh:SfPullToRefresh.PullableContent>
+                                        <sync:SfListView x:Name="onExpiringProduct" AutomationId="onExpiringProduct"
+                                     SelectionMode="Single"
+                                     IsStickyHeader="true"                
+                                     AllowSwiping="true"
+                                     SwipeStarted="Handle_SwipeStarted"
+                                     SwipeEnded="Handle_SwipeEnded"
+                                     SelectionChanged="Handle_SelectionChanged"
+                                     ItemsSource="{Binding WillBeExpiredProducts}"
+                                     IsBusy="{Binding IsBusy,Mode=TwoWay}"
+                                     Margin="8,0,5,0"
+                                     ItemSpacing="0,2,0,0"
+                                     LoadMoreOption="Manual"
+                                     LoadMoreCommand="{Binding LoadMoreProductsCommand}"
+                                     LoadMoreCommandParameter="{Binding Source={x:Reference Name=onExpiringProduct}}"
+                                     BackgroundColor="#E4E4E4"
+                                     SelectionBackgroundColor="#ECECEC"
+                                     AutoFitMode="Height">
+                                            <sync:SfListView.SwipeOffset>
+                                                <OnIdiom x:TypeArguments="x:Double" Phone="100" Tablet="200" Desktop="200" />
+                                            </sync:SfListView.SwipeOffset>
+                                            <sync:SfListView.SwipeThreshold>
+                                                <OnIdiom x:TypeArguments="x:Double" Phone="50" Tablet="100" Desktop="100" />
+                                            </sync:SfListView.SwipeThreshold>
+                                            <sync:SfListView.HeaderTemplate>
+                                                <DataTemplate>
+                                                    <Grid HeightRequest="35" IsVisible="{Binding HasOnExpringProduct}" BackgroundColor="White">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="0.5*"/>
+                                                            <ColumnDefinition Width="0.5*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackLayout HorizontalOptions="Start" Orientation="Horizontal" Grid.Column="0" WidthRequest="60" BackgroundColor="Transparent">
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="OnSort_Tapped"/>
+                                                            </StackLayout.GestureRecognizers>
+                                                            <Label Text="&#xf160;" FontSize="Medium" HorizontalTextAlignment="Start" HorizontalOptions="Start" VerticalOptions="Center" TextColor= "{StaticResource Primary}" Margin="8,0,0,0">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid"/>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                        </StackLayout>
+                                                        <Grid HorizontalOptions="End" Grid.Column="1" WidthRequest="60" BackgroundColor="Transparent">
+                                                            <Grid.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="OnFilter_Tapped"/>
+                                                            </Grid.GestureRecognizers>
+                                                            <Label Text="&#xf0b0;" FontSize="Medium" HorizontalTextAlignment="End" HorizontalOptions="End" VerticalOptions="Center" TextColor= "{StaticResource Primary}"  Margin="0,0,8,0">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid"/>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </sync:SfListView.HeaderTemplate>
+                                            <sync:SfListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid RowSpacing="0" ColumnSpacing="0" Padding="0" Margin="0" BackgroundColor="White">
+                                                        <Grid.RowDefinitions >
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="23"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="0.02*"/>
+                                                            <ColumnDefinition Width="0.03*"/>
+                                                            <ColumnDefinition Width="0.95*"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <StackLayout Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                                            BackgroundColor="{StaticResource HeadLineColor}">
+
+                                                        </StackLayout>
+                                                        <!--<Grid Grid.Row="0" Grid.Column="1">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="0.5*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Image Grid.Row="0" Margin="8,3,8,3" Source="logo.png" VerticalOptions="Start" WidthRequest="50" HeightRequest="50"/>
+                                                        <Image Grid.Row="1" IsVisible="{Binding IsHot, Mode=TwoWay}" Source="Favorites1.png" HorizontalOptions="Center" VerticalOptions="Start" HeightRequest="18" />
+                                                    </Grid>-->
+
+                                                        <Grid Grid.Row="0" Grid.Column="2" Margin="0,2,0,0" RowSpacing="0">
+                                                            <Grid.RowDefinitions >
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="0.2*"/>
+                                                                <RowDefinition Height="0.2*"/>
+                                                                <RowDefinition Height="0.2*"/>
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="0.5*"/>
+                                                                <ColumnDefinition Width="0.5*"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                </Grid.ColumnDefinitions>
+
+                                                                <StackLayout Grid.Column="0" Orientation="Horizontal" VerticalOptions="Center">
+                                                                    <Image  IsVisible="{Binding IsHot, Mode=TwoWay}" Source="Favorites1.png" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="18"/>
+                                                                    <Label  Text="{Binding TownName, Mode=TwoWay}" Style="{StaticResource ProductNameStyle}" VerticalOptions="Center" HorizontalOptions="Start"/>
+                                                                </StackLayout>
+                                                                <!--<Label  Text="{Binding TownName, Mode=TwoWay}" Grid.Row="0" Grid.Column="0" Style="{StaticResource ProductNameStyle}"
+                                                                   VerticalOptions="Center" HorizontalOptions="Start"/>-->
+                                                                <StackLayout Orientation="Horizontal" Margin="5,0,0,0" HorizontalOptions="End" Grid.Row="0" Grid.Column="1"
+                                                                         IsVisible="{Binding ShowOwnerInfo}">
+                                                                    <Label  Text="{Binding OwnerInfo.Name, Mode=TwoWay}"  Style="{StaticResource ProductNameStyle}" HorizontalOptions="End" HorizontalTextAlignment="End"/>
+                                                                    <Label  Text="{Binding OwnerInfo.Mobile, Mode=TwoWay}"  Style="{StaticResource ProductNameStyle}" HorizontalOptions="End" HorizontalTextAlignment="End">
+                                                                    </Label>
+                                                                </StackLayout>
+                                                            </Grid>
+                                                            <!--<Label Grid.Row="1" Grid.Column="0" VerticalOptions="Center" Text="{Binding ProductName, Mode=TwoWay}" 
+                                                                FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>-->
+                                                            <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Horizontal" VerticalOptions="Center">
+                                                                <Label Text="{Binding ProductName, Mode=TwoWay}" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                                <Label Text="{Binding Path=., Converter={StaticResource houseNumberConverter}, Mode=TwoWay}"
+                                                   FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            </StackLayout>
+
+                                                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Rent: " FontFamily="{StaticResource NunitoRegular}" FontSize="Small"/>
+                                                                        <Span Text="{Binding RentPrice,StringFormat='{0:#,##.00}', Mode=TwoWay}" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}" TextColor="{StaticResource OrangeColor}"/>
+                                                                        <Span Text=" "/>
+                                                                        <Span Text="{Binding RentUnit, Mode=TwoWay}" FontFamily="{StaticResource NunitoRegular}" FontSize="9"/>
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+
+                                                            <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal"
+                                                     VerticalOptions="Center">
+                                                                <Label Text="Area:" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                                <Label Text="{Binding Area, Mode=TwoWay}" TextColor="LightSteelBlue" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            </StackLayout>
+                                                            <Label Grid.Row="2" Grid.Column="1" VerticalOptions="Center">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Sale: " FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}"/>
+                                                                        <Span Text="{Binding SalePrice,StringFormat='{0:#,##.00}', Mode=TwoWay}" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}" TextColor="{StaticResource OrangeColor}"/>
+                                                                        <Span Text=" "/>
+                                                                        <Span Text="{Binding SaleUnit, Mode=TwoWay}" FontFamily="{StaticResource NunitoRegular}" FontSize="9"/>
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+
+                                                            <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalOptions="Center">
+                                                                <Label FontSize="18" Text="&#xf007;" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+                                                                    <Label.FontFamily>
+                                                                        <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                        </OnPlatform>
+                                                                    </Label.FontFamily>
+                                                                </Label>
+                                                                <Label>
+                                                                    <Label.FormattedText>
+                                                                        <FormattedString>
+                                                                            <Span Text="{Binding StaffInfo.Name, Mode=TwoWay}" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}"/>
+                                                                            <Span Text=" - "/>
+                                                                            <Span Text="{Binding StaffInfo.Mobile, Mode=TwoWay} " FontFamily="{StaticResource NunitoRegular}" 
+                                                              Style="{StaticResource SpanSmallTextStyle}" TextColor="{StaticResource OrangeColor}"/>
+
+                                                                        </FormattedString>
+                                                                    </Label.FormattedText>
+                                                                </Label>
+                                                            </StackLayout>
+                                                        </Grid>
+                                                        <Grid HeightRequest="30" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="0.08*"/>
+                                                                <ColumnDefinition Width="0.42*"/>
+                                                                <ColumnDefinition Width="0.08*"/>
+                                                                <ColumnDefinition Width="0.42*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" FontSize="12" Text="&#xf783;"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                    </OnPlatform>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                            <Label Grid.Column="1" Text="{Binding CreatedDate, StringFormat='{0:dd/MM/yyyy h:mm tt}'}"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Center"
+                                                   MaxLines="2" LineBreakMode="WordWrap"
+                                                   TextColor="LightSteelBlue" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            <Label Grid.Column="2" FontSize="12" Text="&#xf274;" 
+                                                   VerticalTextAlignment="Center"
+                                                   VerticalOptions="Center">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                    </OnPlatform>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                            <Label Grid.Column="3" Text="{Binding UpdatedDate, StringFormat='{0:dd/MM/yyyy h:mm tt}'}"
+                                                   VerticalOptions="Center"
+                                                   MaxLines="2" LineBreakMode="WordWrap"
+                                                   TextColor="LightSteelBlue" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            <Grid.Margin>
+                                                                <OnPlatform x:TypeArguments="Thickness">
+                                                                    <On Platform="iOS">0,5,0,5</On>
+                                                                    <On Platform="Android">0,4,0,4</On>
+                                                                </OnPlatform>
+                                                            </Grid.Margin>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </sync:SfListView.ItemTemplate>
+                                            <sync:SfListView.RightSwipeTemplate>
+                                                <DataTemplate x:Name="OnExpiringRightSwipeTemplate">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid BackgroundColor="#fcfce8" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Column="0">
+                                                            <Grid.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="OnEdit_Tapped"  CommandParameter="{Binding .}"/>
+                                                            </Grid.GestureRecognizers>
+                                                            <Label FontSize="24" 
+                                                       Text="&#xf044;"
+                                                       TextColor="Green"
+                                                       WidthRequest="28"
+                                                       HeightRequest="28"
+                                                       HorizontalOptions="Center"
+                                                       VerticalTextAlignment="Center">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                    </OnPlatform>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                        </Grid>
+
+                                                        <Grid BackgroundColor="#fcfce8" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Column="1">
+                                                            <Grid.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="OnDelete_Tapped"  CommandParameter="{Binding .}"/>
+                                                            </Grid.GestureRecognizers>
+
+                                                            <Label FontSize="24"
+                                                       Text="&#xf2ed;"
+                                                       TextColor="Red"
+                                                       HorizontalOptions="Center"
+                                                       VerticalTextAlignment="Center">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                    </OnPlatform>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </sync:SfListView.RightSwipeTemplate>
+                                            <sync:SfListView.LoadMoreTemplate>
+                                                <DataTemplate>
+                                                    <Grid HeightRequest="70" IsVisible="{Binding CanLoadMoreOnExpringProduct}">
+                                                        <Label Text="Load more..." TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                                           HorizontalOptions="Center"
+                                           IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}, Source={x:Reference Name=productList}}" />
+
+                                                        <sync:LoadMoreIndicator IsRunning="{Binding IsBusy, Source={x:Reference Name=productList}}" 
+                                                            IsVisible="{Binding IsBusy, Source={x:Reference Name=productList}}"
+                                                            Color="Green" VerticalOptions="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </sync:SfListView.LoadMoreTemplate>
+                                        </sync:SfListView>
+                                    </pulltoRefresh:SfPullToRefresh.PullableContent>
+                                </pulltoRefresh:SfPullToRefresh>
+                            </tabView:SfTabItem.Content>
+                        </tabView:SfTabItem>
+
+                        <!--Listing of expired products-->
+                        <tabView:SfTabItem Title="Expired" TitleFontColor="Black" SelectionColor="{StaticResource OrangeColor}"
+                                       TitleFontSize="14">
+
+                            <tabView:SfTabItem.Content>
+                                <pulltoRefresh:SfPullToRefresh x:Name="expiredPulltoRefresh"
+                                           IsRefreshing="{Binding IsRefreshing}"
+                                           PullingThreshold="150"
+                                           Refreshing="Handle_Refreshing"
+                                           RefreshContentHeight="50"
+                                           RefreshContentWidth="50"
+                                           TransitionMode="Push"
+                                           ProgressStrokeWidth="{OnPlatform Android={OnIdiom Phone=8, Tablet=3}, iOS={OnIdiom Phone=2, Tablet= 2}, UWP={OnIdiom Phone=3, Tablet=2, Desktop=2}, macOS=2}">
+                                    <pulltoRefresh:SfPullToRefresh.PullableContent>
+                                        <sync:SfListView x:Name="expiredProduct" AutomationId="expiredProduct"
+                                     SelectionMode="Single"
+                                     IsStickyHeader="true"                
+                                     SelectionChanged="Handle_SelectionChanged"
+                                     ItemsSource="{Binding ExpiredProducts}"
+                                     IsBusy="{Binding IsBusy,Mode=TwoWay}"
+                                     Margin="8,0,5,0"
+                                     ItemSpacing="0,2,0,0"
+                                     LoadMoreOption="Manual"
+                                     LoadMoreCommand="{Binding LoadMoreProductsCommand}"
+                                     LoadMoreCommandParameter="{Binding Source={x:Reference Name=expiredProduct}}"
+                                     BackgroundColor="#E4E4E4"
+                                     SelectionBackgroundColor="#ECECEC"
+                                     AutoFitMode="Height">
+                                            <sync:SfListView.SwipeOffset>
+                                                <OnIdiom x:TypeArguments="x:Double" Phone="100" Tablet="200" Desktop="200" />
+                                            </sync:SfListView.SwipeOffset>
+                                            <sync:SfListView.SwipeThreshold>
+                                                <OnIdiom x:TypeArguments="x:Double" Phone="50" Tablet="100" Desktop="100" />
+                                            </sync:SfListView.SwipeThreshold>
+                                            <sync:SfListView.HeaderTemplate>
+                                                <DataTemplate>
+                                                    <Grid HeightRequest="35" IsVisible="{Binding HasExpiredProduct}" BackgroundColor="White">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="0.5*"/>
+                                                            <ColumnDefinition Width="0.5*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackLayout HorizontalOptions="Start" Orientation="Horizontal" Grid.Column="0" WidthRequest="60" BackgroundColor="Transparent">
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="OnSort_Tapped"/>
+                                                            </StackLayout.GestureRecognizers>
+                                                            <Label Text="&#xf160;" FontSize="Medium" HorizontalTextAlignment="Start" HorizontalOptions="Start" VerticalOptions="Center" TextColor= "{StaticResource Primary}" Margin="8,0,0,0">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid"/>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                        </StackLayout>
+                                                        <Grid HorizontalOptions="End" Grid.Column="1" WidthRequest="60" BackgroundColor="Transparent">
+                                                            <Grid.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="OnFilter_Tapped"/>
+                                                            </Grid.GestureRecognizers>
+                                                            <Label Text="&#xf0b0;" FontSize="Medium" HorizontalTextAlignment="End" HorizontalOptions="End" VerticalOptions="Center" TextColor= "{StaticResource Primary}"  Margin="0,0,8,0">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid"/>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </sync:SfListView.HeaderTemplate>
+                                            <sync:SfListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid RowSpacing="0" ColumnSpacing="0" Padding="0" Margin="0" BackgroundColor="White">
+                                                        <Grid.RowDefinitions >
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="23"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="0.02*"/>
+                                                            <ColumnDefinition Width="0.03*"/>
+                                                            <ColumnDefinition Width="0.95*"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <StackLayout Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                                      BackgroundColor="#FF7F50">
+
+                                                        </StackLayout>
+                                                        <!--<Grid Grid.Row="0" Grid.Column="1">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="1*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Image Grid.Row="0" Margin="8,3,8,3" Source="logo.png" VerticalOptions="Start" WidthRequest="50" HeightRequest="50"/>
+                                                        <Image Grid.Row="1" IsVisible="{Binding IsHot}" Source="Favorites1.png" HorizontalOptions="Center" VerticalOptions="Start" HeightRequest="18" />
+                                                    </Grid>-->
+
+                                                        <Grid Grid.Row="0" Grid.Column="2" Margin="0,2,0,0" RowSpacing="0">
+                                                            <Grid.RowDefinitions >
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="0.2*"/>
+                                                                <RowDefinition Height="0.2*"/>
+                                                                <RowDefinition Height="0.2*"/>
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="0.5*"/>
+                                                                <ColumnDefinition Width="0.5*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                </Grid.ColumnDefinitions>
+
+                                                                <StackLayout Grid.Column="0" Orientation="Horizontal" VerticalOptions="Center">
+                                                                    <Image  IsVisible="{Binding IsHot, Mode=TwoWay}" Source="Favorites1.png" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="18"/>
+                                                                    <Label  Text="{Binding TownName, Mode=TwoWay}" Style="{StaticResource ProductNameStyle}" VerticalOptions="Center" HorizontalOptions="Start"/>
+                                                                </StackLayout>
+                                                                <!--<Label  Text="{Binding TownName}" Grid.Row="0" Grid.Column="0" Style="{StaticResource ProductNameStyle}"
+                                                                   VerticalOptions="Center" HorizontalOptions="Start"/>-->
+                                                                <StackLayout Orientation="Horizontal" Margin="5,0,0,0" HorizontalOptions="End" Grid.Row="0" Grid.Column="1"
+                                                                         IsVisible="{Binding ShowOwnerInfo}">
+                                                                    <Label  Text="{Binding OwnerInfo.Name}"  Style="{StaticResource ProductNameStyle}" HorizontalOptions="End" HorizontalTextAlignment="End"/>
+                                                                    <Label  Text="{Binding OwnerInfo.Mobile}"  Style="{StaticResource ProductNameStyle}" HorizontalOptions="End" HorizontalTextAlignment="End">
+                                                                    </Label>
+                                                                </StackLayout>
+                                                            </Grid>
+
+                                                            <!--<Label Grid.Row="1" Grid.Column="0" VerticalOptions="Center" Text="{Binding ProductName}" 
+                                                            FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>-->
+                                                            <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Horizontal" VerticalOptions="Center">
+                                                                <Label Text="{Binding ProductName, Mode=TwoWay}" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                                <Label Text="{Binding Path=., Converter={StaticResource houseNumberConverter}, Mode=TwoWay}"
+                                                   FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            </StackLayout>
+                                                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Rent: " FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}"/>
+                                                                        <Span Text="{Binding RentPrice, StringFormat='{0:#,##.00}'}" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}" TextColor="{StaticResource OrangeColor}"/>
+                                                                        <Span Text=" "/>
+                                                                        <Span Text="{Binding RentUnit}" FontFamily="{StaticResource NunitoRegular}" FontSize="9"/>
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+
+                                                            <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal"
+                                                     VerticalOptions="Center">
+                                                                <Label Text="Area:" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                                <Label Text="{Binding Area}" TextColor="LightSteelBlue" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            </StackLayout>
+                                                            <Label Grid.Row="2" Grid.Column="1" VerticalOptions="Center">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Sale: " FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}"/>
+                                                                        <Span Text="{Binding SalePrice, StringFormat='{0:#,##.00}'}" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}" TextColor="{StaticResource OrangeColor}"/>
+                                                                        <Span Text=" "/>
+                                                                        <Span Text="{Binding SaleUnit}" FontFamily="{StaticResource NunitoRegular}" FontSize="9"/>
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+
+                                                            <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalOptions="Center">
+                                                                <Label FontSize="12" Text="&#xf007;" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+                                                                    <Label.FontFamily>
+                                                                        <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                        </OnPlatform>
+                                                                    </Label.FontFamily>
+                                                                </Label>
+                                                                <Label>
+                                                                    <Label.FormattedText>
+                                                                        <FormattedString>
+                                                                            <Span Text="{Binding StaffInfo.Name}" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}"/>
+                                                                            <Span Text=" - "/>
+                                                                            <Span Text="{Binding StaffInfo.Mobile} " FontFamily="{StaticResource NunitoRegular}" 
+                                                              Style="{StaticResource SpanSmallTextStyle}" TextColor="{StaticResource OrangeColor}"/>
+
+                                                                        </FormattedString>
+                                                                    </Label.FormattedText>
+                                                                </Label>
+                                                            </StackLayout>
+                                                        </Grid>
+                                                        <Grid HeightRequest="30" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="0.08*"/>
+                                                                <ColumnDefinition Width="0.42*"/>
+                                                                <ColumnDefinition Width="0.08*"/>
+                                                                <ColumnDefinition Width="0.42*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" FontSize="12" Text="&#xf783;"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                    </OnPlatform>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                            <Label Grid.Column="1" Text="{Binding CreatedDate, StringFormat='{0:dd/MM/yyyy h:mm tt}'}"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Center"
+                                                   MaxLines="2" LineBreakMode="WordWrap"
+                                                   TextColor="LightSteelBlue" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            <Label Grid.Column="2" FontSize="12" Text="&#xf274;" 
+                                                   VerticalTextAlignment="Center"
+                                                   VerticalOptions="Center">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                    </OnPlatform>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                            <Label Grid.Column="3" Text="{Binding UpdatedDate, StringFormat='{0:dd/MM/yyyy h:mm tt}'}"
+                                                   VerticalOptions="Center"
+                                                   MaxLines="2" LineBreakMode="WordWrap"
+                                                   TextColor="LightSteelBlue" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            <Grid.Margin>
+                                                                <OnPlatform x:TypeArguments="Thickness">
+                                                                    <On Platform="iOS">0,5,0,5</On>
+                                                                    <On Platform="Android">0,4,0,4</On>
+                                                                </OnPlatform>
+                                                            </Grid.Margin>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </sync:SfListView.ItemTemplate>
+                                            <sync:SfListView.LoadMoreTemplate>
+                                                <DataTemplate>
+                                                    <Grid HeightRequest="70" IsVisible="{Binding CanLoadMoreExpiredProduct}">
+                                                        <Label Text="Load more..." TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                                           HorizontalOptions="Center"
+                                           IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}, Source={x:Reference Name=productList}}" />
+
+                                                        <sync:LoadMoreIndicator IsRunning="{Binding IsBusy, Source={x:Reference Name=productList}}" 
+                                                            IsVisible="{Binding IsBusy, Source={x:Reference Name=productList}}"
+                                                            Color="Green" VerticalOptions="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </sync:SfListView.LoadMoreTemplate>
+                                        </sync:SfListView>
+                                    </pulltoRefresh:SfPullToRefresh.PullableContent>
+                                </pulltoRefresh:SfPullToRefresh>
+                            </tabView:SfTabItem.Content>
+                        </tabView:SfTabItem>
+
+                        <!--Listing of deleted products-->
+                        <tabView:SfTabItem Title="Deleted" TitleFontColor="Black" SelectionColor="{StaticResource OrangeColor}"
+                                       TitleFontSize="14">
+                            <tabView:SfTabItem.Content>
+                                <pulltoRefresh:SfPullToRefresh x:Name="deletedPulltoRefresh"
+                                           IsRefreshing="{Binding IsRefreshing}"
+                                           PullingThreshold="150"
+                                           Refreshing="Handle_Refreshing"
+                                           RefreshContentHeight="50"
+                                           RefreshContentWidth="50"
+                                           TransitionMode="Push"
+                                           ProgressStrokeWidth="{OnPlatform Android={OnIdiom Phone=8, Tablet=3}, iOS={OnIdiom Phone=2, Tablet= 2}, UWP={OnIdiom Phone=3, Tablet=2, Desktop=2}, macOS=2}">
+                                    <pulltoRefresh:SfPullToRefresh.PullableContent>
+                                        <sync:SfListView x:Name="deletedProduct" AutomationId="deletedProduct"
+                                      IsStickyHeader="true"               
+                                     SelectionMode="Single"
+                                     SelectionChanged="Handle_SelectionChanged"
+                                     ItemsSource="{Binding DeletedProducts}"
+                                     IsBusy="{Binding IsBusy,Mode=TwoWay}"
+                                     Margin="8,0,5,0"
+                                     ItemSpacing="0,2,0,0"
+                                     LoadMoreOption="Manual"
+                                     LoadMoreCommand="{Binding LoadMoreProductsCommand}"
+                                     LoadMoreCommandParameter="{Binding Source={x:Reference Name=deletedProduct}}"
+                                     BackgroundColor="#E4E4E4"
+                                     SelectionBackgroundColor="#ECECEC"
+                                     AutoFitMode="Height">
+                                            <sync:SfListView.SwipeOffset>
+                                                <OnIdiom x:TypeArguments="x:Double" Phone="100" Tablet="200" Desktop="200" />
+                                            </sync:SfListView.SwipeOffset>
+                                            <sync:SfListView.SwipeThreshold>
+                                                <OnIdiom x:TypeArguments="x:Double" Phone="50" Tablet="100" Desktop="100" />
+                                            </sync:SfListView.SwipeThreshold>
+                                            <sync:SfListView.HeaderTemplate>
+                                                <DataTemplate>
+                                                    <Grid HeightRequest="35" IsVisible="{Binding HasDeletedProduct}" BackgroundColor="White">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="0.5*"/>
+                                                            <ColumnDefinition Width="0.5*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackLayout HorizontalOptions="Start" Orientation="Horizontal" Grid.Column="0" WidthRequest="60" BackgroundColor="Transparent">
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="OnSort_Tapped"/>
+                                                            </StackLayout.GestureRecognizers>
+                                                            <Label Text="&#xf160;" FontSize="Medium" HorizontalTextAlignment="Start" HorizontalOptions="Start" VerticalOptions="Center" TextColor= "{StaticResource Primary}" Margin="8,0,0,0">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid"/>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                        </StackLayout>
+                                                        <Grid HorizontalOptions="End" Grid.Column="1" WidthRequest="60" BackgroundColor="Transparent">
+                                                            <Grid.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="OnFilter_Tapped"/>
+                                                            </Grid.GestureRecognizers>
+                                                            <Label Text="&#xf0b0;" FontSize="Medium" HorizontalTextAlignment="End" HorizontalOptions="End" VerticalOptions="Center" TextColor= "{StaticResource Primary}"  Margin="0,0,8,0">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid"/>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </sync:SfListView.HeaderTemplate>
+                                            <sync:SfListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid RowSpacing="0" ColumnSpacing="0" Padding="0" Margin="0" BackgroundColor="White">
+                                                        <Grid.RowDefinitions >
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="23"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="0.02*"/>
+                                                            <ColumnDefinition Width="0.03*"/>
+                                                            <ColumnDefinition Width="0.95*"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <StackLayout Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                                        BackgroundColor="Red">
+
+                                                        </StackLayout>
+                                                        <!--<Grid Grid.Row="0" Grid.Column="1">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="0.5*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Image Grid.Row="0" Margin="8,3,8,3" Source="logo.png" VerticalOptions="Start" WidthRequest="50" HeightRequest="50"/>
+                                                        <Image Grid.Row="1" IsVisible="{Binding IsHot}" Source="Favorites1.png" HorizontalOptions="Center" VerticalOptions="Start" HeightRequest="18" />
+                                                    </Grid>-->
+
+                                                        <Grid Grid.Row="0" Grid.Column="2" Margin="0,2,0,0" RowSpacing="0">
+                                                            <Grid.RowDefinitions >
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="0.2*"/>
+                                                                <RowDefinition Height="0.2*"/>
+                                                                <RowDefinition Height="0.2*"/>
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="0.5*"/>
+                                                                <ColumnDefinition Width="0.5*"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                </Grid.ColumnDefinitions>
+
+                                                                <StackLayout Grid.Column="0" Orientation="Horizontal" VerticalOptions="Center">
+                                                                    <Image  IsVisible="{Binding IsHot, Mode=TwoWay}" Source="Favorites1.png" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="18"/>
+                                                                    <Label  Text="{Binding TownName, Mode=TwoWay}" Style="{StaticResource ProductNameStyle}" VerticalOptions="Center" HorizontalOptions="Start"/>
+                                                                </StackLayout>
+
+                                                                <!--<Label  Text="{Binding TownName}" Grid.Row="0" Grid.Column="0" Style="{StaticResource ProductNameStyle}"
+                                                                   VerticalOptions="Center" HorizontalOptions="Start"/>-->
+                                                                <StackLayout Orientation="Horizontal" Margin="5,0,0,0" HorizontalOptions="End" Grid.Row="0" Grid.Column="1"
+                                                                         IsVisible="{Binding ShowOwnerInfo}">
+                                                                    <Label  Text="{Binding OwnerInfo.Name}"  Style="{StaticResource ProductNameStyle}" HorizontalOptions="End" HorizontalTextAlignment="End"/>
+                                                                    <Label  Text="{Binding OwnerInfo.Mobile}"  Style="{StaticResource ProductNameStyle}" HorizontalOptions="End" HorizontalTextAlignment="End">
+                                                                    </Label>
+                                                                </StackLayout>
+                                                            </Grid>
+                                                            <!--<Label Grid.Row="1" Grid.Column="0" VerticalOptions="Center" Text="{Binding ProductName}" 
+                                               FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>-->
+                                                            <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Horizontal" VerticalOptions="Center">
+                                                                <Label Text="{Binding ProductName, Mode=TwoWay}" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                                <Label Text="{Binding Path=., Converter={StaticResource houseNumberConverter}, Mode=TwoWay}"
+                                                   FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            </StackLayout>
+                                                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Rent: " FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}"/>
+                                                                        <Span Text="{Binding RentPrice,StringFormat='{0:#,##.00}'} " FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}" TextColor="{StaticResource OrangeColor}"/>
+                                                                        <Span Text=" "/>
+                                                                        <Span Text="{Binding RentUnit}" FontFamily="{StaticResource NunitoRegular}" FontSize="9"/>
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+
+                                                            <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal"
+                                                     VerticalOptions="Center">
+                                                                <Label Text="Area:" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                                <Label Text="{Binding Area}" TextColor="LightSteelBlue" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            </StackLayout>
+                                                            <Label Grid.Row="2" Grid.Column="1" VerticalOptions="Center">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Sale: " FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}"/>
+                                                                        <Span Text="{Binding SalePrice,StringFormat='{0:#,##.00}'}" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}" TextColor="{StaticResource OrangeColor}"/>
+                                                                        <Span Text=" "/>
+                                                                        <Span Text="{Binding SaleUnit}" FontFamily="{StaticResource NunitoRegular}" FontSize="9"/>
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+
+                                                            <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalOptions="Center">
+                                                                <Label FontSize="12" Text="&#xf007;" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+                                                                    <Label.FontFamily>
+                                                                        <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                        </OnPlatform>
+                                                                    </Label.FontFamily>
+                                                                </Label>
+                                                                <Label>
+                                                                    <Label.FormattedText>
+                                                                        <FormattedString>
+                                                                            <Span Text="{Binding StaffInfo.Name}" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SpanSmallTextStyle}"/>
+                                                                            <Span Text=" - "/>
+                                                                            <Span Text="{Binding StaffInfo.Mobile} " FontFamily="{StaticResource NunitoRegular}" 
+                                                                            Style="{StaticResource SpanSmallTextStyle}" TextColor="{StaticResource OrangeColor}"/>
+
+                                                                        </FormattedString>
+                                                                    </Label.FormattedText>
+                                                                </Label>
+                                                            </StackLayout>
+                                                        </Grid>
+                                                        <Grid HeightRequest="30" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="0.08*"/>
+                                                                <ColumnDefinition Width="0.42*"/>
+                                                                <ColumnDefinition Width="0.08*"/>
+                                                                <ColumnDefinition Width="0.42*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" FontSize="12" Text="&#xf783;"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                    </OnPlatform>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                            <Label Grid.Column="1" Text="{Binding CreatedDate, StringFormat='{0:dd/MM/yyyy h:mm tt}'}"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Center"
+                                                   MaxLines="2" LineBreakMode="WordWrap"
+                                                   TextColor="LightSteelBlue" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            <Label Grid.Column="2" FontSize="12" Text="&#xf274;" 
+                                                   VerticalTextAlignment="Center"
+                                                   VerticalOptions="Center">
+                                                                <Label.FontFamily>
+                                                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                                                    </OnPlatform>
+                                                                </Label.FontFamily>
+                                                            </Label>
+                                                            <Label Grid.Column="3" Text="{Binding UpdatedDate, StringFormat='{0:dd/MM/yyyy h:mm tt}'}"
+                                                   VerticalOptions="Center"
+                                                   MaxLines="2" LineBreakMode="WordWrap"
+                                                   TextColor="LightSteelBlue" FontFamily="{StaticResource NunitoRegular}" Style="{StaticResource SmallTextStyle}"/>
+                                                            <Grid.Margin>
+                                                                <OnPlatform x:TypeArguments="Thickness">
+                                                                    <On Platform="iOS">0,5,0,5</On>
+                                                                    <On Platform="Android">0,4,0,4</On>
+                                                                </OnPlatform>
+                                                            </Grid.Margin>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </sync:SfListView.ItemTemplate>
+                                            <sync:SfListView.LoadMoreTemplate>
+                                                <DataTemplate>
+                                                    <Grid HeightRequest="70" IsVisible="{Binding CanLoadMoreDeletedProduct}">
+                                                        <Label Text="Load more..." TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                                           HorizontalOptions="Center"
+                                           IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}, Source={x:Reference Name=productList}}" />
+
+                                                        <sync:LoadMoreIndicator IsRunning="{Binding IsBusy, Source={x:Reference Name=productList}}" 
+                                                            IsVisible="{Binding IsBusy, Source={x:Reference Name=productList}}"
+                                                            Color="Green" VerticalOptions="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </sync:SfListView.LoadMoreTemplate>
+                                        </sync:SfListView>
+                                    </pulltoRefresh:SfPullToRefresh.PullableContent>
+                                </pulltoRefresh:SfPullToRefresh>
+                            </tabView:SfTabItem.Content>
+                        </tabView:SfTabItem>
+                    </tabView:SfTabView>
+                </Grid>
+                <views:FloatingActionButton Margin="0,0,16,16"
+                                    Image="add_48.png" ButtonColor="{StaticResource NavigationPrimary}"  
+                                    WidthRequest="56" HeightRequest="56" HorizontalOptions="EndAndExpand"
+                                        VerticalOptions="EndAndExpand" Clicked="FloatingActionButton_Clicked">
+                    <views:FloatingActionButton.Padding>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS">13</On>
+                            <On Platform="Android">0</On>
+                        </OnPlatform>
+                    </views:FloatingActionButton.Padding>
+                </views:FloatingActionButton>
+            </Grid>
+            <customViews:LoadingIndicator 
+                    Grid.Row="0"
+                    IsRunning="{Binding IsBusy, Mode=TwoWay} " 
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

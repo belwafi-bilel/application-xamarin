@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sync="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:pulltoRefresh="clr-namespace:Syncfusion.SfPullToRefresh.XForms;assembly=Syncfusion.SfPullToRefresh.XForms"
+             x:Class="RealEstate.Mobile.Views.ProductCategoryPage"
+             xmlns:local="clr-namespace:RealEstate.Mobile.ViewModels"
+             Title="{Binding Title}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="CaptionLabelStyle" 
+               TargetType="{x:Type Label}">
+                <Setter Property="FontFamily"
+                        Value="{StaticResource NunitoBold}" />
+                <Setter Property="FontSize" 
+                        Value="{StaticResource LargeSize}" />
+                <Setter Property="HorizontalOptions" 
+                        Value="Start" />
+                <Setter Property="VerticalOptions" 
+                        Value="Center" />
+                <Setter Property="Margin" 
+                        Value="16,0,0,0" />
+                <Setter Property="TextColor" Value="{StaticResource GreenColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <pulltoRefresh:SfPullToRefresh x:Name="pulltoRefresh"
+                                           IsRefreshing="{Binding IsRefreshing}"
+                                           Refreshing="Handle_Refreshing"
+                                           PullingThreshold="150"
+                                           RefreshContentHeight="50"
+                                           RefreshContentWidth="50"
+                                           TransitionMode="Push"
+                                           ProgressStrokeWidth="{OnPlatform Android={OnIdiom Phone=8, Tablet=3}, iOS={OnIdiom Phone=2, Tablet= 2}, UWP={OnIdiom Phone=3, Tablet=2, Desktop=2}, macOS=2}">
+                <pulltoRefresh:SfPullToRefresh.PullableContent>
+                    <sync:SfListView x:Name="categoryList" AutomationId="categoryList"
+                                     SelectionMode="Single"
+                                     SelectionChanged="LocationList_SelectionChanged"
+                                     ItemsSource="{Binding ListingTypes}"
+                                     BackgroundColor="White"
+                                     SelectionBackgroundColor="#ECECEC"
+                                     ItemSize="{OnPlatform Android={OnIdiom Phone=60, Tablet=100}, iOS={OnIdiom Phone=60, Tablet= 90}, UWP={OnIdiom Phone=60, Tablet=150, Desktop=150}, macOS=105}">
+                        <sync:SfListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions >
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="1"/>
+                                    </Grid.RowDefinitions>
+                                    <StackLayout Grid.Row="0" Orientation="Horizontal">
+                                        <Label Text="{Binding Name}" LineBreakMode="TailTruncation" Style="{StaticResource CaptionLabelStyle}" />
+                                        <Label Text="{Binding TotalProduct, StringFormat='({0:#,##0})'}" FontFamily="{StaticResource NunitoRegular}" FontSize="Micro"
+                                               Margin="5,0,0,0"
+                                               VerticalOptions="Center"/>
+                                    </StackLayout>   
+                                    <StackLayout Grid.Row="1" BackgroundColor="#E4E4E4" HeightRequest="1"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sync:SfListView.ItemTemplate>
+                    </sync:SfListView>
+                </pulltoRefresh:SfPullToRefresh.PullableContent>
+            </pulltoRefresh:SfPullToRefresh>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

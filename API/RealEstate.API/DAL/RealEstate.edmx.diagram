@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="715e8f3b9b9f4c6dbb51f395faee34d1" Name="Diagram1">
+        <EntityTypeShape EntityType="RealEstateModel.Account" Width="1.5" PointX="3" PointY="9.125" />
+        <EntityTypeShape EntityType="RealEstateModel.AccountRole" Width="1.5" PointX="5.25" PointY="12.375" />
+        <EntityTypeShape EntityType="RealEstateModel.Comment" Width="1.5" PointX="10.5" PointY="16.75" />
+        <EntityTypeShape EntityType="RealEstateModel.Customer" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="RealEstateModel.Department" Width="1.5" PointX="0.75" PointY="10.5" />
+        <EntityTypeShape EntityType="RealEstateModel.Estate_Types" Width="1.5" PointX="6" PointY="5.625" />
+        <EntityTypeShape EntityType="RealEstateModel.LoginLog" Width="1.5" PointX="5.25" PointY="8.625" />
+        <EntityTypeShape EntityType="RealEstateModel.Notification" Width="1.5" PointX="5.25" PointY="25.375" />
+        <EntityTypeShape EntityType="RealEstateModel.RentUnit" Width="1.5" PointX="6" PointY="17.875" />
+        <EntityTypeShape EntityType="RealEstateModel.Role" Width="1.5" PointX="3" PointY="15.375" />
+        <EntityTypeShape EntityType="RealEstateModel.SaleUnit" Width="1.5" PointX="6" PointY="15.5" />
+        <EntityTypeShape EntityType="RealEstateModel.Town" Width="1.5" PointX="6" PointY="20.25" />
+        <AssociationConnector Association="RealEstateModel.FK_Account_Departments" />
+        <AssociationConnector Association="RealEstateModel.FK_AccountRoles_Account" />
+        <AssociationConnector Association="RealEstateModel.FK_Comment_Account" />
+        <AssociationConnector Association="RealEstateModel.FK_LoginLog_Account" />
+        <AssociationConnector Association="RealEstateModel.FK_ThongBao_Account" />
+        <AssociationConnector Association="RealEstateModel.FK_AccountRoles_Roles" />
+        <AssociationConnector Association="RealEstateModel.FK_Comment_ThongBao" />
+        <EntityTypeShape EntityType="RealEstateModel.EstateMedia" Width="1.5" PointX="10.5" PointY="9.875" />
+        <EntityTypeShape EntityType="RealEstateModel.Estate" Width="1.5" PointX="8.25" PointY="10.5" />
+        <AssociationConnector Association="RealEstateModel.FK_SanPham_Account" />
+        <AssociationConnector Association="RealEstateModel.FK_Comment_SanPham" />
+        <AssociationConnector Association="RealEstateModel.FK_SanPham_LoaiNhaDat" />
+        <AssociationConnector Association="RealEstateModel.FK_EstateMedias_Estates" />
+        <AssociationConnector Association="RealEstateModel.FK_SanPham_DonViBan" />
+        <AssociationConnector Association="RealEstateModel.FK_SanPham_DonViThue" />
+        <AssociationConnector Association="RealEstateModel.FK_SanPham_KhuPho" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

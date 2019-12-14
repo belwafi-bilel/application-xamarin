@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+             xmlns:customViews="clr-namespace:RealEstate.Mobile.CustomControls;assembly=RealEstate.Mobile"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             x:Class="RealEstate.Mobile.Views.ProductViewPage"
+             Title="{Binding Town}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="CaptionLabelStyle" TargetType="{x:Type Label}">
+                <Setter Property="FontFamily" Value="{StaticResource NunitoRegular}" />
+                <Setter Property="FontSize" Value="{StaticResource LargeSize}" />
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="TextColor" Value="{StaticResource BlackTextColor}" />
+            </Style>
+            <Style x:Key="ProductNameStyle" 
+               TargetType="{x:Type Label}">
+                <Setter Property="FontFamily"
+                        Value="{StaticResource NunitoBold}" />
+                <Setter Property="FontSize" 
+                        Value="{StaticResource LargeSize}" />
+                <Setter Property="HorizontalOptions" 
+                        Value="Start" />
+                <Setter Property="VerticalOptions" 
+                        Value="End" />
+                <Setter Property="Margin" 
+                        Value="0, 0" />
+                <Setter Property="TextColor" Value="{StaticResource GreenColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <ScrollView>
+                <Grid RowSpacing="10" Margin="20,0,20,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.4*"/>
+                        <ColumnDefinition Width="0.6*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                        <FlexLayout  BindableLayout.ItemsSource="{Binding Photos}" Wrap="Wrap" Direction="Row" 
+                                             JustifyContent="Start" AlignItems="Start" AlignContent="Start" Padding="8">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="4,4,4,4" FlexLayout.Basis="{OnIdiom Phone='50%', Tablet='33%'}" FlexLayout.AlignSelf="Start">
+                                        <Frame Padding="0" VerticalOptions="Start" HasShadow="True">
+                                            <Grid Padding="0">
+                                                <ffimageloading:CachedImage Source="{Binding .}"
+                                                        HorizontalOptions="FillAndExpand"  HeightRequest="150"
+                                                        Aspect="AspectFill" FadeAnimationEnabled="True"
+                                                        FadeAnimationForCachedImages="True" DownsampleToViewSize="True">
+                                                </ffimageloading:CachedImage>
+                                            </Grid>
+                                        </Frame>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                    </Grid>
+
+                    <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsVisible="{Binding ShowOwnerName}" Padding="15,15,15,15" HasShadow="False" BackgroundColor="LightSteelBlue">
+                        <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CallCommand}" CommandParameter="{Binding Mobile}"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="{Binding OwnerName}" Style="{StaticResource CaptionLabelStyle}" FontAttributes="Bold"/>
+                            <Label FontSize="18" Margin="8,0,0,0"
+                                   Text="&#xf095;"
+                                   TextColor="Green"
+                                   VerticalTextAlignment="Center">
+                                <Label.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String" 
+                                            iOS="Font Awesome 5 Free" 
+                                            Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                    </OnPlatform>
+                                </Label.FontFamily>
+                            </Label>
+                            <Label Text="{Binding Mobile}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontFamily="{StaticResource NunitoRegular}" FontSize="16"/>
+                        </StackLayout>
+                    </Frame>
+                    <Label Grid.Row="2" Grid.Column="0" Text="Product Id:" Style="{StaticResource CaptionLabelStyle}"/>
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding ProductName}" Style="{StaticResource CaptionLabelStyle}"/>
+                    <BoxView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="1" BackgroundColor="LightGray"/>
+
+                    <Label Grid.Row="4" Grid.Column="0" Text="House No.:" Style="{StaticResource CaptionLabelStyle}"/>
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding HouseNumber}" Style="{StaticResource CaptionLabelStyle}"/>
+                    <BoxView Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="1" BackgroundColor="LightGray"/>
+
+                    <Label Grid.Row="6" Grid.Column="0" Text="Rent Price:" Style="{StaticResource CaptionLabelStyle}"/>
+                    <StackLayout Grid.Row="6" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+                        <Label Text="{Binding RentPrice}" FontFamily="{StaticResource NunitoRegular}" FontSize="{StaticResource LargeSize}" TextColor="{StaticResource OrangeColor}"/>
+                        <Label Text="{Binding RentUnit}" FontFamily="{StaticResource NunitoRegular}" FontSize="Small"/>
+                    </StackLayout>
+                    <BoxView Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="1" BackgroundColor="LightGray"/>
+
+                    <Label Grid.Row="8" Grid.Column="0" Text="Sale Price:" Style="{StaticResource CaptionLabelStyle}"/>
+                    <StackLayout Grid.Row="8" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+                        <Label Text="{Binding SalePrice}" FontFamily="{StaticResource NunitoRegular}" FontSize="{StaticResource LargeSize}" TextColor="{StaticResource OrangeColor}"/>
+                        <Label Text="{Binding SaleUnit}" FontFamily="{StaticResource NunitoRegular}" FontSize="Small"/>
+                    </StackLayout>
+                    <BoxView Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="1" BackgroundColor="LightGray"/>
+
+                    <Label Grid.Row="10" Grid.Column="0" Text="Category:" Style="{StaticResource CaptionLabelStyle}"/>
+                    <Label Grid.Row="10" Grid.Column="1" Text="{Binding ListingType}" Style="{StaticResource CaptionLabelStyle}"/>
+                    <BoxView Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="1" BackgroundColor="LightGray"/>
+
+
+
+                    <Label Grid.Row="12" Grid.Column="0" Text="Created:" Style="{StaticResource CaptionLabelStyle}"/>
+                    <Label Grid.Row="12" Grid.Column="1" Text="{Binding DateCreate, StringFormat='{0:dd/MM/yyyy h:mm tt}'}" Style="{StaticResource CaptionLabelStyle}"/>
+                    <BoxView Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="1" BackgroundColor="LightGray"/>
+
+                    <Label Grid.Row="14" Grid.Column="0" Text="Updated:" Style="{StaticResource CaptionLabelStyle}"/>
+                    <Label Grid.Row="14" Grid.Column="1" Text="{Binding DateUpdate, StringFormat='{0:dd/MM/yyyy h:mm tt}'}" Style="{StaticResource CaptionLabelStyle}"/>
+                    <BoxView Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="1" BackgroundColor="LightGray"/>
+
+                    <Label Grid.Row="16" Grid.Column="0" Text="Area (m2):" Style="{StaticResource CaptionLabelStyle}"/>
+                    <Label Grid.Row="16" Grid.Column="1" Text="{Binding Area}" Style="{StaticResource CaptionLabelStyle}"/>
+                    <BoxView Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="1" BackgroundColor="LightGray"/>
+                    <Frame Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,0"  Padding="15,15,15,15" HasShadow="False" BackgroundColor="LightSteelBlue">
+                        <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CallCommand}" CommandParameter="{Binding StaffMobile}"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label FontSize="18" Margin="8,0,0,0"
+                                   Text="&#xf007;"
+                                   TextColor="Green"
+                                   VerticalTextAlignment="Center">
+                                <Label.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" iOS="Font Awesome 5 Free">
+                                    </OnPlatform>
+                                </Label.FontFamily>
+                            </Label>
+                            <Label Text="{Binding StaffName}" Style="{StaticResource CaptionLabelStyle}" FontAttributes="Bold"/>
+                            <Label FontSize="18" Margin="8,0,0,0"
+                                   Text="&#xf095;"
+                                   TextColor="Green"
+                                   VerticalTextAlignment="Center">
+                                <Label.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String" iOS="Font Awesome 5 Free" Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" >
+                                    </OnPlatform>
+                                </Label.FontFamily>
+                            </Label>
+                            <Label Text="{Binding StaffMobile}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontFamily="{StaticResource NunitoRegular}" FontSize="16"/>
+                        </StackLayout>
+                    </Frame>
+                    <inputLayout:SfTextInputLayout Grid.Row="19" Grid.Column="0" Grid.ColumnSpan="2" x:Name="notesLayout" Margin="0,20,0,0"
+                                               ContainerType="Filled"
+                                               FocusedColor="{StaticResource Primary}"
+                                               Hint="Notes"
+                                               LeadingViewPosition="Outside"
+                                               ShowCharCount="False">
+                        <Editor x:Name="notes" Text="{Binding Notes}" IsEnabled="false"/>
+                    </inputLayout:SfTextInputLayout>
+                    <maps:Map Grid.Row="20" Grid.ColumnSpan="2" x:Name="map" Margin="0,20,0,0" HeightRequest="500"
+                                VerticalOptions="FillAndExpand" />
+                </Grid>
+            </ScrollView>
+            <customViews:LoadingIndicator 
+                    Grid.Row="0"
+                    IsRunning="{Binding IsBusy, Mode=TwoWay}" 
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
